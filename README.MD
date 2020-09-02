@@ -1,6 +1,7 @@
 <p align="middle">
 <img width="648" height="245" src="config-files/logo.png">
 </p>
+<a href="https://github.com/GunzIvan28/rMAP/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/GunzIvan28/rMAP?color=blue"></a> <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/GunzIvan28/rMAP">  
 
 Thorough easy-to-use resistome profiling bioinformatics pipeline for **ESKAPE** (_Enterococcus faecium_, _Staphylococcus aureus,_ _Klebsiella pneumoniae_, _Acinetobacter baumannii_, _Pseudomonas aeruginosa_, and _Enterobacter_ species) pathogens using Illumina Whole-genome sequencing (WGS) paired-end reads
 
