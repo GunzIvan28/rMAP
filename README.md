@@ -1,7 +1,10 @@
 <p align="middle">
 <img width="648" height="245" src="config-files/logo.png">
 </p>
-<a href="https://github.com/GunzIvan28/rMAP/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/GunzIvan28/rMAP?color=blue"></a> <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/GunzIvan28/rMAP">  
+<a href="https://github.com/GunzIvan28/rMAP/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/GunzIvan28/rMAP?color=blue"></a>  
+
+[![Anaconda-Server Badge](https://anaconda.org/gunzivan28/rmap/badges/platforms.svg)](https://anaconda.org/gunzivan28/rmap) [![Anaconda-Server Badge](https://anaconda.org/gunzivan28/rmap/badges/version.svg)](https://anaconda.org/gunzivan28/rmap) ![Conda](https://img.shields.io/conda/v/gunzivan28/rmap)
+[![Anaconda-Server Badge](https://anaconda.org/gunzivan28/rmap/badges/latest_release_date.svg)](https://anaconda.org/gunzivan28/rmap) [![Anaconda-Server Badge](https://anaconda.org/gunzivan28/rmap/badges/downloads.svg)](https://anaconda.org/gunzivan28/rmap) 
 
 Thorough easy-to-use resistome profiling bioinformatics pipeline for **ESKAPE** (_Enterococcus faecium_, _Staphylococcus aureus,_ _Klebsiella pneumoniae_, _Acinetobacter baumannii_, _Pseudomonas aeruginosa_, and _Enterobacter_ species) pathogens using Illumina Whole-genome sequencing (WGS) paired-end reads
 
@@ -41,7 +44,7 @@ Install [Miniconda](https://conda.io/miniconda.html) and run the following comma
 `cd rMAP`  
 `conda update -n base -y -c defaults conda`  
 
-Select the appropraite installer for your computer (either `rMAP-1.0-Linux-installer.yml` or `rMAP-1.0-macOs-installer.yml`)
+Select the appropriate installer for your computer (either `rMAP-1.0-Linux-installer.yml` or `rMAP-1.0-macOs-installer.yml`)
 
 **For Linux Users**: `conda env create -n rMAP-1.0 --file rMAP-1.0-Linux-installer.yml`  
 **For MacOS Users**: `conda env create -n rMAP-1.0 --file rMAP-1.0-macOs-installer.yml`  
