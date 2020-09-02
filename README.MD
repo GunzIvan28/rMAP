@@ -1,5 +1,6 @@
-![rMAP](config-files/logo.png)
-
+<p align="centre">
+<img width="645" height="192" src="config-files/logo.png">
+</p>
 
 Thorough easy-to-use resistome profiling bioinformatics pipeline for **ESKAPE** (_Enterococcus faecium_, _Staphylococcus aureus,_ _Klebsiella pneumoniae_, _Acinetobacter baumannii_, _Pseudomonas aeruginosa_, and _Enterobacter_ species) pathogens using Illumina Whole-genome sequencing (WGS) paired-end reads
 
