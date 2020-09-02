@@ -1,0 +1,43 @@
+name: rMAP-1.0
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - abricate=1.0.1
+  - fastqc=0.11.9
+  - multiqc=1.9
+  - snippy=4.3.6
+  - snpeff=4.5covid19
+  - ncbi-amrfinderplus=3.8.4
+  - prokka=1.14.6
+  - prodigal=2.6.3
+  - freebayes=1.3.2
+  - unicycler
+  - mlst=2.19.0
+  - assembly-stats=1.0.1
+  - sra-tools
+  - bwa=0.7.17
+  - kleborate=1.0.0
+  - mafft=7.471
+  - quast=5.0.2
+  - r-base=4.0.2
+  - trimmomatic=0.39
+  - megahit=1.2.9
+  - parallel=20200722
+  - prinseq=0.20.4
+  - shovill=1.0.9
+  - vt
+  - fasttree=2.1.10
+  - samclip=0.4.0
+  - nextflow=20.07.1
+  - any2fasta=0.4.2
+  - python=3.7.8
+  - biopython.convert=1.0.3
+  - iqtree=2.0.3
+  - bmge=1.12
+  - samtools=1.9
+  - roary=3.13.0
+  - ismapper=2.0.1
+  - lxml=4.5.2
+  - cairosvg=2.4.2
