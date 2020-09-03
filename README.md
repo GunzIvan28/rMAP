@@ -124,16 +124,16 @@ Before starting the pipeline, run the command below to install and enjoy the ful
 **The short notation for the code above can be run as follows**:  
 `rMAP -t 8 -r full_genome.gbk -i dir_name -o dir_name -f -a shovill -m -vc -p -s -g`
 
-## Arguments
+## 🚀 Arguments
 
-### Mandatory
+### ⚡ Mandatory
 
 - `-c | --config` This installs R-packages and other dependancies required for downstream analysis. It is run only once, mandatory and the very first step performed before any analysis
 - `-i | --input` Location of sequences to be analyzed either in `.fastq` or `.fastq.gz` formats. If reads are not qzipped, rMAP will compress them for the user for optimization
 - `-o | --output` Name of directory to output results. rMAP creates the specified folder if it does not exist
 - `-r | --reference` Provide the recommended reference genome in `genbank` format renamed with extension `.gbk` e.g `reference_name.gbk` required for variant calling. A reference in `fasta` format e.g `reference_name.fasta` or `reference_name.fa` can be used but will not produce annotated vcf files
 
-### Other options
+### 🎨 Other options
 
 - `-o | --download` This options downloads sequences from NCBI-Sequence Read Archive. Create a text file `'list.txt'` containing the IDs of the samples to be downloaded and save it at `$HOME` directory. The downloaded samples will be saved at `$HOME/SRA_READS`
 - `-f | --quality` Generates quality metrics for the input sequences visualized as `.html` reports
@@ -149,9 +149,9 @@ Before starting the pipeline, run the command below to install and enjoy the ful
 - `-v | version` Prints software version and exits
 - `-x | citation` Shows citation and exits
 
-## Report visualization
+## 📗 Report visualization
 
-A sample of the interractive report generated from the pipeline can be viewed at this [link](https://github.com/GunzIvan28/gunzivan28.github.io)
+A sample of the interractive report generated from the pipeline can be viewed at this [link](https://gunzivan28.github.io/rMAP/)
 
 ## 📝 Information
 
