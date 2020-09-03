@@ -1,10 +1,10 @@
 <p align="middle">`
 <img width="648" height="245" src="config-files/logo.png">
 </p>
-<a href="https://github.com/GunzIvan28/rMAP/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/GunzIvan28/rMAP?color=blue"></a>  
+<a href="https://github.com/GunzIvan28/rMAP/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/GunzIvan28/rMAP?color=blue"></a>
 
 [![Anaconda-Server Badge](https://anaconda.org/gunzivan28/rmap/badges/platforms.svg)](https://anaconda.org/gunzivan28/rmap) [![Anaconda-Server Badge](https://anaconda.org/gunzivan28/rmap/badges/version.svg)](https://anaconda.org/gunzivan28/rmap) ![Conda](https://img.shields.io/conda/v/gunzivan28/rmap)
-[![Anaconda-Server Badge](https://anaconda.org/gunzivan28/rmap/badges/latest_release_date.svg)](https://anaconda.org/gunzivan28/rmap) [![Anaconda-Server Badge](https://anaconda.org/gunzivan28/rmap/badges/downloads.svg)](https://anaconda.org/gunzivan28/rmap) 
+[![Anaconda-Server Badge](https://anaconda.org/gunzivan28/rmap/badges/latest_release_date.svg)](https://anaconda.org/gunzivan28/rmap) [![Anaconda-Server Badge](https://anaconda.org/gunzivan28/rmap/badges/downloads.svg)](https://anaconda.org/gunzivan28/rmap)
 
 Thorough easy-to-use resistome profiling bioinformatics pipeline for **ESKAPE** (_Enterococcus faecium_, _Staphylococcus aureus,_ _Klebsiella pneumoniae_, _Acinetobacter baumannii_, _Pseudomonas aeruginosa_, and _Enterobacter_ species) pathogens using Illumina Whole-genome sequencing (WGS) paired-end reads
 
@@ -33,21 +33,20 @@ The rMAP pipeline toolbox is able to perform:
 
 Install [Miniconda](https://conda.io/miniconda.html) and run the following commands:  
 **For Linux Users:** `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`  
-`bash Miniconda3-latest-Linux-x86_64.sh`  
+`bash Miniconda3-latest-Linux-x86_64.sh`
 
 **For MacOS Users:** `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh`  
-`bash Miniconda3-latest-MacOSX-x86_64.sh`  
-
+`bash Miniconda3-latest-MacOSX-x86_64.sh`
 
 `export PATH=~/miniconda3/bin:$PATH` and source using `source ~/.bashrc`  
 `git clone https://github.com/GunzIvan28/rMAP.git`  
 `cd rMAP`  
-`conda update -n base -y -c defaults conda`  
+`conda update -n base -y -c defaults conda`
 
 Select the appropriate installer for your computer (either `rMAP-1.0-Linux-installer.yml` or `rMAP-1.0-macOs-installer.yml`)
 
 **For Linux Users**: `conda env create -n rMAP-1.0 --file rMAP-1.0-Linux-installer.yml`  
-**For MacOS Users**: `conda env create -n rMAP-1.0 --file rMAP-1.0-macOs-installer.yml`  
+**For MacOS Users**: `conda env create -n rMAP-1.0 --file rMAP-1.0-macOs-installer.yml`
 
 `conda activate rMAP-1.0`  
 `bash setup.sh`  
@@ -62,8 +61,8 @@ Developed and maintained by Ivan Sserwadda & Gerald Mboowa
 SYPNOSIS:
     Bacterial analysis Toolbox for profiling the Resistome of ESKAPE pathogens using WGS paired-end reads
 
-USAGE: 
-    rMAP [options] --input <DIR> --output <OUTDIR> --reference <REF> 
+USAGE:
+    rMAP [options] --input <DIR> --output <OUTDIR> --reference <REF>
 
 GENERAL:
     -h/--help       Show this help menu
@@ -75,13 +74,13 @@ OBLIGATORY OPTIONS:
 
     -o/--output     Path and name of the output directory
 
-    -r/--reference  Path to reference genome(.gbk). Provide '.gbk' to get annotated vcf files and insertion 
-                    sequences  [default="REF.gbk"]  
+    -r/--reference  Path to reference genome(.gbk). Provide '.gbk' to get annotated vcf files and insertion
+                    sequences  [default="REF.gbk"]
 
-    -c/--config     Install and configure full software dependencies  
+    -c/--config     Install and configure full software dependencies
 
 OTHER OPTIONS:
-    -d/--download   Download sequences from NCBI-SRA. Requires 'list.txt' of  sample ids saved at $HOME 
+    -d/--download   Download sequences from NCBI-SRA. Requires 'list.txt' of  sample ids saved at $HOME
                     directory
 
     -f/--quality    Generate .html reports with quality statistics for the samples
@@ -90,27 +89,27 @@ OTHER OPTIONS:
 
     -a/--assembly   Perform De novo assembly [default=megahit] Choose either 'shovill' or 'megahit'
 
-    -vc/--varcall   Generates SNPs for each sample and a merged 'all-sample ID' VCF file to be used to infer 
+    -vc/--varcall   Generates SNPs for each sample and a merged 'all-sample ID' VCF file to be used to infer
                     phylogeny in downstream analysis
 
     -t/--threads    Number of threads to use <integer> [default=4]
 
-    -m/--amr        Profiles any existing antimicrobial resistance genes, virulence factors, mlsts and plasmids 
-                    present within each sample id. 
+    -m/--amr        Profiles any existing antimicrobial resistance genes, virulence factors, mlsts and plasmids
+                    present within each sample id.
 
-    -p/--phylogeny  Infers phylogeny using merged all-sample ID VCF file to determine diversity and evolutionary 
+    -p/--phylogeny  Infers phylogeny using merged all-sample ID VCF file to determine diversity and evolutionary
                     relationships using Maximum Likelihood(ML) in 1000 Bootstraps
-    
+
     -s/--pangenome  Perform pangenome analysis. A minimum of 3 samples should be provided to run this option
-    
-    -g/--gen-ele    Interrogates and profiles for mobile genomic elements(MGE) and insertion sequeces(IS) that 
+
+    -g/--gen-ele    Interrogates and profiles for mobile genomic elements(MGE) and insertion sequeces(IS) that
                     may exist in the sequences
-                     
+
 For further explanation please visit: https://github.com/GunzIvan28/rMAP
 
 ```
 
-Before starting the pipeline, run the command below to install and enjoy the full functionality of the software. This is done only once 
+Before starting the pipeline, run the command below to install and enjoy the full functionality of the software. This is done only once
 `rMAP -t 8 --config` or `rMAP -t 8 -c`
 
 ## 📀 Snippets of commandline arguments
@@ -125,6 +124,35 @@ Before starting the pipeline, run the command below to install and enjoy the ful
 **The short notation for the code above can be run as follows**:  
 `rMAP -t 8 -r full_genome.gbk -i dir_name -o dir_name -f -a shovill -m -vc -p -s -g`
 
+## Arguments
+
+### Mandatory
+
+- `-c | --config` This installs R-packages and other dependancies required for downstream analysis. It is run only once, mandatory and the very first step performed before any analysis
+- `-i | --input` Location of sequences to be analyzed either in `.fastq` or `.fastq.gz` formats. If reads are not qzipped, rMAP will compress them for the user for optimization
+- `-o | --output` Name of directory to output results. rMAP creates the specified folder if it does not exist
+- `-r | --reference` Provide the recommended reference genome in `genbank` format renamed with extension `.gbk` e.g `reference_name.gbk` required for variant calling. A reference in `fasta` format e.g `reference_name.fasta` or `reference_name.fa` can be used but will not produce annotated vcf files
+
+### Other options
+
+- `-o | --download` This options downloads sequences from NCBI-Sequence Read Archive. Create a text file `'list.txt'` containing the IDs of the samples to be downloaded and save it at `$HOME` directory. The downloaded samples will be saved at `$HOME/SRA_READS`
+- `-f | --quality` Generates quality metrics for the input sequences visualized as `.html` reports
+- `-q | --trim` Identifies and trims illumina library adapters off the raw reads and poor quality reads below a phred quality score of `27` with minimum length of `80`bp set as the default for the software
+- `-a | --assembly` Performs _De-novo_ assembly for the trimmed reads. Two assemblers are available for this step: `shovill` or `megahit`. Selecting `"shovill"` will perform genome mapping and several polishing rounds with removal of 'inter-contig' gaps to produce good quality contigs and scaffolds but is SLOW. Selecting `"megatht"` produces contigs with relatively lower quality assembly metrics but is much FASTER
+- `-vc | --varcall` Maps reads to the reference genome and calls `SNPs` saved in vcf format. A merged 'all-sample ID' VCF file to be used to infer phylogeny in downstream analysis is also generated at this stage
+- `-t | --threads` Specifies the number of cores to use as an integer. Default cores are set to 4
+- `-m | --amr` Provides a snapshot of the existing resistome (antimicrobial resistance genes, virulence factors, mlsts and plasmids) present in each sample id
+- `-p | phylogeny` Uses the vcf file containing SNPs for all of the samples combined as an input, transposes it into a multiple alignment fasta file and infers phylogenetic analysis using Maximum-Likelihood method. The trees generated are in 1000 Bootstrap values
+- `-s | --pangenome` Performs pangenome analysis for the samples using Roary. A minimum of 3 samples is required for this step
+- `-g | --gene-ele` This interrogates for any Insertion Sequences that may inserted anywhere within the genomes of the samples. These sequences are compared against a database of the commonly reported insertion Sequences found in organisms originating from the **_ESKAPE_** fraternity
+- `-h | --help` Shows the main menu
+- `-v | version` Prints software version and exits
+- `-x | citation` Shows citation and exits
+
+## Report visualization
+
+A sample of the interractive report generated from the pipeline can be viewed at this [link](https://github.com/GunzIvan28/gunzivan28.github.io)
+
 ## 📝 Information
 
 ### How to cite
@@ -136,56 +164,55 @@ Not yet published
 This pipeline was written by Ivan Sserwadda [GunzIvan28](https://github.com/GunzIvan28) and Gerald Mboowa [gmboowa](https://github.com/gmboowa). If you want to contribute, please open an issue or a pull request and ask to be added to the project - everyone is welcome to contribute
 
 ### ✍️ Authors
-* [Ivan Sserwadda](https://github.com/GunzIvan28)
-* [Gerald Mboowa](https://github.com/gmboowa)
+
+- [Ivan Sserwadda](https://github.com/GunzIvan28)
+- [Gerald Mboowa](https://github.com/gmboowa)
 
 ### 🔌 Third Party Plugins
 
 This softwares' foundation is built using pre-existing tools. When using it, please don't forget to cite the following:
 
-* [ABRicate=1.0.1](https://github.com/tseemann/abricate)
-* [FastQC=0.11.9](https://github.com/s-andrews/FastQC)
-* [MultiQC=1.9](https://github.com/ewels/MultiQC)
-* [Snippy=4.3.6](https://github.com/tseemann/snippy)
-* [SnpEff=4.5covid19](https://github.com/pcingola/SnpEff)
-* [AMRFinderPlus=3.8.4](https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/)
-* [Prokka=1.14.6](https://github.com/tseemann/prokka)
-* [Prodigal=2.6.3](https://github.com/hyattpd/Prodigal)
-* [Freebayes=1.3.2](https://github.com/ekg/freebayes)
-* [Unicycler=0.4.8](https://github.com/rrwick/Unicycler)
-* [Mlst=2.19.0](https://github.com/tseemann/mlst)
-* [Assembly-stats=1.0.1](https://github.com/sanger-pathogens/assembly-stats)
-* [SRA-Tools=2.10.8](https://github.com/ncbi/sra-tools)
-* [BWA=0.7.17](https://github.com/lh3/bwa)
-* [Kleborate=1.0.0](https://github.com/katholt/Kleborate)
-* [Mafft=7.471](https://mafft.cbrc.jp/alignment/software/)
-* [Quast=5.0.2](http://quast.sourceforge.net/quast)
-* [R-base=4.0.2](https://cran.r-project.org/)
-* [Trimmomatic=0.39](http://www.usadellab.org/cms/?page=trimmomatic)
-* [Megahit=1.2.9](https://github.com/voutcn/megahit)
-* [Parallel=20200722](https://www.gnu.org/software/parallel/)
-* [Shovill=1.0.9](https://github.com/tseemann/shovill)
-* [Vt=2015.11.10](https://github.com/atks/vt)
-* [Fasttree=2.1.10](http://www.microbesonline.org/fasttree/)
-* [Samclip=0.4.0](https://github.com/tseemann/samclip/)
-* [Nextflow=20.07.1](https://github.com/nextflow-io/nextflow)
-* [Any2fasta=0.4.2](https://github.com/tseemann/any2fasta)
-* [Biopython.convert=1.0.3](https://github.com/biopython/biopython)
-* [Iqtree=2.0.3](https://github.com/Cibiv/IQ-TREE)
-* [Bmge=1.12](https://bmcevolbiol.biomedcentral.com/articles/10.1186/1471-2148-10-210)
-* [Tormes=1.1](https://github.com/nmquijada/tormes)
-* [Samtools=1.9](https://github.com/samtools/samtools)
-* [Roary=3.13.0](https://sanger-pathogens.github.io/Roary/)
-* [ISmapper=2.0.1](https://github.com/jhawkey/IS_mapper)
-* [Cairosvg=2.4.2](https://github.com/Kozea/CairoSVG)
+- [ABRicate=1.0.1](https://github.com/tseemann/abricate)
+- [FastQC=0.11.9](https://github.com/s-andrews/FastQC)
+- [MultiQC=1.9](https://github.com/ewels/MultiQC)
+- [Snippy=4.3.6](https://github.com/tseemann/snippy)
+- [SnpEff=4.5covid19](https://github.com/pcingola/SnpEff)
+- [AMRFinderPlus=3.8.4](https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/)
+- [Prokka=1.14.6](https://github.com/tseemann/prokka)
+- [Prodigal=2.6.3](https://github.com/hyattpd/Prodigal)
+- [Freebayes=1.3.2](https://github.com/ekg/freebayes)
+- [Unicycler=0.4.8](https://github.com/rrwick/Unicycler)
+- [Mlst=2.19.0](https://github.com/tseemann/mlst)
+- [Assembly-stats=1.0.1](https://github.com/sanger-pathogens/assembly-stats)
+- [SRA-Tools=2.10.8](https://github.com/ncbi/sra-tools)
+- [BWA=0.7.17](https://github.com/lh3/bwa)
+- [Kleborate=1.0.0](https://github.com/katholt/Kleborate)
+- [Mafft=7.471](https://mafft.cbrc.jp/alignment/software/)
+- [Quast=5.0.2](http://quast.sourceforge.net/quast)
+- [R-base=4.0.2](https://cran.r-project.org/)
+- [Trimmomatic=0.39](http://www.usadellab.org/cms/?page=trimmomatic)
+- [Megahit=1.2.9](https://github.com/voutcn/megahit)
+- [Parallel=20200722](https://www.gnu.org/software/parallel/)
+- [Shovill=1.0.9](https://github.com/tseemann/shovill)
+- [Vt=2015.11.10](https://github.com/atks/vt)
+- [Fasttree=2.1.10](http://www.microbesonline.org/fasttree/)
+- [Samclip=0.4.0](https://github.com/tseemann/samclip/)
+- [Nextflow=20.07.1](https://github.com/nextflow-io/nextflow)
+- [Any2fasta=0.4.2](https://github.com/tseemann/any2fasta)
+- [Biopython.convert=1.0.3](https://github.com/biopython/biopython)
+- [Iqtree=2.0.3](https://github.com/Cibiv/IQ-TREE)
+- [Bmge=1.12](https://bmcevolbiol.biomedcentral.com/articles/10.1186/1471-2148-10-210)
+- [Tormes=1.1](https://github.com/nmquijada/tormes)
+- [Samtools=1.9](https://github.com/samtools/samtools)
+- [Roary=3.13.0](https://sanger-pathogens.github.io/Roary/)
+- [ISmapper=2.0.1](https://github.com/jhawkey/IS_mapper)
+- [Cairosvg=2.4.2](https://github.com/Kozea/CairoSVG)
 
 ### 🐛 To report bugs, ask questions or seek help
 
 The software developing team works round the clock to ensure the bugs within the program are captured and fixed.
-For support or any inquiry: 
-You can submit your query using the [Issue Tracker](https://github.com/GunzIvan28/rMAP/issues)    
-
-
+For support or any inquiry:
+You can submit your query using the [Issue Tracker](https://github.com/GunzIvan28/rMAP/issues)
 
 <p align="middle">
 <img width="647" height="323" src="config-files/footer.png">
