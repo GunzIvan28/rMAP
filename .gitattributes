@@ -1,0 +1,2 @@
+* liguist-vendored
+*.sh linguist-vendored=false
