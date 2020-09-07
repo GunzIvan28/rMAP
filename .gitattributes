@@ -1,2 +1,1 @@
-* liguist-vendored
-*bin/rMAP linguist-vendored=false
+bin/rMAP linguist-generated=true
