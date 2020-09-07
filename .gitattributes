@@ -1,2 +1,2 @@
 * liguist-vendored
-*.sh linguist-vendored=false
+*bin/rMAP linguist-vendored=false
