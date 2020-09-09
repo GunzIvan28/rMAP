@@ -172,7 +172,7 @@ while [[ $# -gt 0 ]]; do
         ;;
 
     -q | --trim)
-        TRIM=$2
+        TRIM=1
         shift
         ;;
 
@@ -336,9 +336,6 @@ else
 fi
 ls $INPUT >$OUTPUT/temp.txt
 cat $OUTPUT/temp.txt | cut -d_ -f1 | uniq >$OUTPUT/list.txt
-
-#### Special request EANBIT custom script #################
-# cat $OUTPUT/temp.txt | cut -d. -f1 | rev | cut -c3- | rev | uniq | sort >$OUTPUT/list.txt
 rm -rf $OUTPUT/temp.txt
 
 ############################# QUALITY CONTROL #####################################
@@ -371,19 +368,24 @@ cd
 
 CPUS=8
 if [ -e "$ADAPTERS" ]; then
-    TRIM=1
-    start=$SECONDS
-    echo -e $Blue"$ADAPTERS present\n"$Off
-    echo -e $Blue"\nrMAP is now Trimming the reads for quality:$QUALITY, minimum length:$MINLEN\n"$Off
-    mkdir -p $OUTPUT/trimmed_reads
-    for sample in $(cat $OUTPUT/list.txt); do
-        A=${sample}_1.fastq.gz
-        B=${sample}_2.fastq.gz
-        echo -e $Red"\nProcessing sample: "$sample$Off
-        trimmomatic PE -threads $CPUS -phred33 $INPUT/$A $INPUT/$B $OUTPUT/trimmed_reads/$sample.clean_1.fastq.gz /dev/null $OUTPUT/trimmed_reads/$sample.clean_2.fastq.gz /dev/null ILLUMINACLIP:$ADAPTERS:1:30:11 LEADING:${QUALITY} TRAILING:${QUALITY} MINLEN:${MINLEN}
-    done
-    end=$SECONDS
-    echo -e $Green"\nYour Trimming Run Took Approximately: $((end - start)) seconds."$Off
+    if [ "$TRIM" -ne "0" ]; then
+        TRIM=1
+        start=$SECONDS
+        echo -e $Blue"$ADAPTERS present\n"$Off
+        echo -e $Blue"\nrMAP is now Trimming the reads for quality:$QUALITY, minimum length:$MINLEN\n"$Off
+        mkdir -p $OUTPUT/trimmed_reads
+        for sample in $(cat $OUTPUT/list.txt); do
+            A=${sample}_1.fastq.gz
+            B=${sample}_2.fastq.gz
+            echo -e $Red"\nProcessing sample: "$sample$Off
+            trimmomatic PE -threads $CPUS -phred33 $INPUT/$A $INPUT/$B $OUTPUT/trimmed_reads/$sample.clean_1.fastq.gz /dev/null $OUTPUT/trimmed_reads/$sample.clean_2.fastq.gz /dev/null ILLUMINACLIP:$ADAPTERS:1:30:11 LEADING:${QUALITY} TRAILING:${QUALITY} MINLEN:${MINLEN}
+        done
+        end=$SECONDS
+        echo -e $Green"\nYour Trimming Run Took Approximately: $((end - start)) seconds."$Off
+    else
+        echo -e $Red"'-q/--trim' option disabled: rMAP cannot skip trimming process... This is required for downstream analysis!! Please select '-q' or '--trim'...rMAP will now exit..."$Off
+        exit 1
+    fi
 fi
 ################-------------Quality filtering stats---------------------###############
 start=$SECONDS
