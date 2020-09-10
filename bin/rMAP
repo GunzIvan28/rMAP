@@ -392,7 +392,7 @@ start=$SECONDS
 echo -e $Blue"\nrMAP is now Generating Trimming Stats..."$Off
 for x in $(cat $OUTPUT/list.txt); do
     echo -e $Blue"Processing sample: $x"$Off
-    zcat $OUTPUT/trimmed_reads/$x\.clean_*.fastq.gz | awk 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("total\tavg\n%d\t%f\n",n,m,sq/n-m*m);}' >$OUTPUT/trimmed_reads/$x\.ok.stats.txt
+    cat $OUTPUT/trimmed_reads/$x\.clean_*.fastq.gz | awk 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("total\tavg\n%d\t%f\n",n,m,sq/n-m*m);}' >$OUTPUT/trimmed_reads/$x\.ok.stats.txt
     sed -i 's/\..*//' $OUTPUT/trimmed_reads/$x\.ok.stats.txt
     #######cp -rf $OUTPUT/trimmed_reads/*.txt $OUTPUT/reports
 done
