@@ -851,7 +851,6 @@ if [ "$MGE" -ne "0" ]; then
     MGE=1
     start=$SECONDS
     MGE_PATH="$rMAPDIR/../config-files/"
-    mkdir -p $OUTPUT/genetic_elements
     echo -e $Red"rMAP will now look for Mobile Genetic Elements and Insertion Sequences...\n"$Off
     mkdir -p $OUTPUT/insertion_sequences
     for sample in $(cat $OUTPUT/list.txt); do
