@@ -257,7 +257,7 @@ if [ $CONFIG -ne "0" ]; then
     echo -e $Green"rMAP will now install missing R-packages...."$Off
     #### R-package istallations ########
     conda install -y -c conda-forge r-biocmanager
-    Rscript -e 'library(BiocManager);BiocManager::install(c("ggtree"))'
+    Rscript -e 'library(BiocManager);BiocManager::install(c("ggtree", "rmarkdown"))'
     echo -e $Green"R-packages installed successfully....\n"$Off
     #### Extra-conda package installations
     pip install pbr --ignore-installed
@@ -388,6 +388,7 @@ if [ -e "$ADAPTERS" ]; then
     fi
 fi
 ################-------------Quality filtering stats---------------------###############
+export LC_ALL=C
 start=$SECONDS
 echo -e $Blue"\nrMAP is now Generating Trimming Stats..."$Off
 for x in $(cat $OUTPUT/list.txt); do
