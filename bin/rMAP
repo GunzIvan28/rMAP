@@ -328,7 +328,7 @@ echo -e "Input reads directory: $INPUT"
 echo -e "Selected output directory: $OUTPUT"
 echo -e "Number of cores selected: $CPUS"
 ########------ Extracting list of downloaded samples to be used for downstream analysis--------------- ###
-if $(ls $INPUT/*fastq &>>/dev/null); then
+if $(ls $INPUT/*fastq 2>/dev/null); then
     echo -e $Red"Some reads are not gzipped... rMAP will zip them to optimize the pipeline"$Off
     parallel -j $CPUS --gnu gzip ::: $INPUT/*fastq
 else
