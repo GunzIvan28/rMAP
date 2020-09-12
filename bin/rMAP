@@ -872,7 +872,7 @@ METADATA="$OUTPUT/list.txt"
 TAB="$(printf '\t')"
 TITLE="rMAP Comprehensive Analysis Report Summary"
 DATE="$(date +"%Y-%m-%d")"
-#### Creating Assembly report #############
+# #### Creating Assembly report #############
 for i in $(cat $METADATA); do
     tail -n +2 $OUTPUT/trimmed_reads/$i\.ok.stats.txt >>$OUTPUT/temp2
     tail -n +2 $OUTPUT/quast_assembly_stats/${i}_quast_stats/transposed_report.tsv | awk -v OFS="$TAB" -F "$TAB" '{print $14,$16,$15,$18,$17}' >>$OUTPUT/temp3
