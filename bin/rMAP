@@ -741,7 +741,7 @@ if [ "$AMR" -ne "0" ]; then
     start=$SECONDS
     echo -e $Blue"\nrMAP is will now perform Antimicrobial Resistance Prediction..."$Off
     echo -e $Red"Running NCBI-amrfinder Plus...\n"$Off
-    amrfinder --update
+    # amrfinder --update
     cd
     mkdir -p $OUTPUT/resistance_genes/{NCBI,ABRICATE}
     for sample in $(cat $OUTPUT/list.txt); do
