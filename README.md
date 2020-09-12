@@ -31,7 +31,7 @@ The rMAP pipeline toolbox is able to perform:
 
 ## ⚙️ Installation
 
-Install [Miniconda](https://conda.io/miniconda.html) and run the following commands:  
+Install [Miniconda](https://conda.io/miniconda.html) by running the following commands:  
 **For Linux Users:** `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`  
 `bash Miniconda3-latest-Linux-x86_64.sh`
 
