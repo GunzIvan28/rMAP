@@ -119,10 +119,10 @@ Before starting the pipeline, run the command below to install and enjoy the ful
 `rMAP -t 8 --download`
 
 **Perform a full run of rMAP using**
-`rMAP -t 8 --reference full_genome.gbk --input dir_name --output dir_name --quality --assembly shovill --amr --varcall --phylogeny --pangenome --gen-ele`
+`rMAP -t 8 --reference full_genome.gbk --input dir_name --output dir_name --quality --assembly shovill --amr --varcall --trim --phylogeny --pangenome --gen-ele`
 
 **The short notation for the code above can be run as follows**:  
-`rMAP -t 8 -r full_genome.gbk -i dir_name -o dir_name -f -a shovill -m -vc -p -s -g`
+`rMAP -t 8 -r full_genome.gbk -i dir_name -o dir_name -f -a shovill -m -vc -q -p -s -g`
 
 ## 🚀 Arguments
 
