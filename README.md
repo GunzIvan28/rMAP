@@ -135,7 +135,7 @@ Before starting the pipeline, run the command below to install and enjoy the ful
 
 ### 🎨 Other options
 
-- `-o | --download` This options downloads sequences from NCBI-Sequence Read Archive. Create a text file `'list.txt'` containing the IDs of the samples to be downloaded and save it at `$HOME` directory. The downloaded samples will be saved at `$HOME/SRA_READS`
+- `-o | --download` This option downloads sequences from NCBI-Sequence Read Archive. Create a text file `'list.txt'` containing the IDs of the samples to be downloaded and save it at `$HOME` directory. The downloaded samples will be saved at `$HOME/SRA_READS`
 - `-f | --quality` Generates quality metrics for the input sequences visualized as `.html` reports
 - `-q | --trim` Identifies and trims illumina library adapters off the raw reads and poor quality reads below a phred quality score of `27` with minimum length of `80`bp set as the default for the software
 - `-a | --assembly` Performs _De-novo_ assembly for the trimmed reads. Two assemblers are available for this step: `shovill` or `megahit`. Selecting `"shovill"` will perform genome mapping and several polishing rounds with removal of 'inter-contig' gaps to produce good quality contigs and scaffolds but is SLOW. Selecting `"megatht"` produces contigs with relatively lower quality assembly metrics but is much FASTER
