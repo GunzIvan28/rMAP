@@ -144,7 +144,7 @@ Before starting the pipeline, run the command below to install and enjoy the ful
 - `-m | --amr` Provides a snapshot of the existing resistome (antimicrobial resistance genes, virulence factors, mlsts and plasmids) present in each sample id
 - `-p | phylogeny` Uses the vcf file containing SNPs for all of the samples combined as an input, transposes it into a multiple alignment fasta file and infers phylogenetic analysis using Maximum-Likelihood method. The trees generated are in 1000 Bootstrap values
 - `-s | --pangenome` Performs pangenome analysis for the samples using Roary. A minimum of 3 samples is required for this step
-- `-g | --gene-ele` This interrogates for any Insertion Sequences that may inserted anywhere within the genomes of the samples. These sequences are compared against a database of the commonly reported insertion Sequences found in organisms originating from the **_ESKAPE_** fraternity
+- `-g | --gene-ele` This interrogates for any Insertion Sequences that may have been inserted anywhere within the genomes of the samples. These sequences are compared against a database of the commonly reported insertion Sequences found in organisms originating from the **_ESKAPE_** fraternity
 - `-h | --help` Shows the main menu
 - `-v | version` Prints software version and exits
 - `-x | citation` Shows citation and exits
