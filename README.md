@@ -27,7 +27,8 @@ The rMAP pipeline toolbox is able to perform:
 7. SNP-based phylogeny inference using Maximum-Likelihood methods using [iqtree](https://github.com/Cibiv/IQ-TREE)
 8. Antimicrobial resistance genes, plasmid, virulence factors and MLST profiling
 9. [Insertion sequences](https://github.com/jhawkey/IS_mapper) detection
-10. Interactive visual `.HTML` report generation using [R](https://www.r-project.org/) packages and [Markdown](https://www.markdownguide.org/) language
+10. Pangenome analysis
+11. Interactive visual `.HTML` report generation using [R](https://www.r-project.org/) packages and [Markdown](https://www.markdownguide.org/) language
 
 ## ⚙️ Installation
 
