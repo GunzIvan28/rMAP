@@ -973,6 +973,14 @@ done
 cp -rf $OUTPUT/mlsts/mlst.tab $OUTPUT/reports
 cp -rf $OUTPUT/phylogeny/combined.filt-algn.phy.treefile $OUTPUT/reports/
 mv $OUTPUT/reports/combined.filt-algn.phy.treefile $OUTPUT/reports/combined.filt-algn.phy.newick
+#### 5. Vcf file compilation
+for x in $(cat $METADATA); do 
+    cp -rf $OUTPUT/variant_calling/${x}.annot.tab $OUTPUT/reports/ 
+    cat $OUTPUT/reports/${x}.annot.tab | grep "snp" | grep "missense_variant" | grep "resistance" >>$OUTPUT/reports/${x}_amr_snps.tab 
+    cut -d$'\t' -f2-5,11,13-14 $OUTPUT/reports/${x}_amr_snps.tab >$OUTPUT/reports/${x}_amr_snps 
+    sed -i "1iGenomePosition${TAB}Type${TAB}ReferenceAllele${TAB}AlternateAllele${TAB}Consequence${TAB}AffectedGene${TAB}Product" $OUTPUT/reports/${x}_amr_snps
+done
+rm -rf $OUTPUT/reports/*amr_snps.tab && rm -rf $OUTPUT/reports/*.annot.tab
 ###### MARKDOWN SAMPLE RUN ############
 cat <<EOF >$OUTPUT/reports/rMAP_report.Rmd
 ---
@@ -1122,6 +1130,36 @@ Average sequencing depth = **\`r mean(seqdata\$Depth, na.rm=TRUE)\`X**
 
 ##
 
+[Back to index](#index)
+
+EOF
+
+cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
+## SNP-variant calling {#snps}
+#### Select the sample {.tabset .tabset-fade .tabset-pills}
+EOF
+for i in $(cat $METADATA); do
+    cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
+##### $i
+\`\`\`{r, echo=FALSE, message=FALSE, error=TRUE}
+snps=read.table("${i}_amr_snps", header = T, sep = "\t", dec = ".", quote = "")
+snps=as.data.frame(snps)
+snpsdata=cbind(snps[,1:7])
+colnames(snpsdata)=c("GenomePosition", "Type", "ReferenceAllele", "AlternateAllele", "Consequence", "AffectedGene", "Product")
+snps = snpsdata[order(snpsdata\$GenomePosition),]
+row.names(snps)=NULL
+if (nrow(snps)==0){
+  print ("NO ANTIBIOTIC-ASSOCIATED SNPS DETECTED!!!")
+} else {
+kable(snps, results='asis', align="c")
+}
+\`\`\`
+
+EOF
+done
+cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
+##
+<br>
 [Back to index](#index)
 
 EOF
