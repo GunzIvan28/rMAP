@@ -41,3 +41,4 @@ dependencies:
   - ismapper=2.0.1
   - lxml=4.5.2
   - cairosvg=2.4.2
+  - sed=4.8
