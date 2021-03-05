@@ -152,7 +152,8 @@ Before starting the pipeline, run the command below to install and enjoy the ful
 
 ## 📗 Report visualization
 
-A sample of the interractive report generated from the pipeline can be viewed at this [link](https://gunzivan28.github.io/rMAP/)
+A sample of the interractive HTML report generated from the pipeline can be viewed at this [link](https://gunzivan28.github.io/rMAP/).
+The pipeline also retains the intermediate files and respective folders within the `reports` directory to be interrogated further by experienced users for any particular genes that may be of interest.
 
 ## 📝 Information
 
