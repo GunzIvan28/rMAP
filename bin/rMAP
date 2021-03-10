@@ -256,18 +256,18 @@ if [ $CONFIG -ne "0" ]; then
     echo -e $Green"rMAP will now configure the system: Please be patient...\n"
     echo -e $Green"rMAP will now install missing R-packages...."$Off
     #### R-package istallations ########
-    # conda install -y -c conda-forge r-biocmanager
-    # Rscript -e 'library(BiocManager);BiocManager::install(c("ggtree", "rmarkdown"))'
+    conda install -y -c conda-forge r-biocmanager
+    Rscript -e 'library(BiocManager);BiocManager::install(c("ggtree", "rmarkdown"))'
     Rscript -e 'library(BiocManager);BiocManager::install(c("data.table", "formattable"))'
     echo -e $Green"R-packages installed successfully....\n"$Off
     #### Extra-conda package installations
-    # conda install -y -c conda-forge beautifulsoup4
-    # conda install -y -c conda-forge r-gridextra
-    # conda install -y -c conda-forge r-kableextra
-    # conda install -y -c conda-forge r-plotly
-    # conda install -y -c conda-forge r-devtools
-    # conda install -y -c conda-forge r-reshape2
-    # conda install -y -c conda-forge r-tidyverse
+    conda install -y -c conda-forge beautifulsoup4
+    conda install -y -c conda-forge r-gridextra
+    conda install -y -c conda-forge r-kableextra
+    conda install -y -c conda-forge r-plotly
+    conda install -y -c conda-forge r-devtools
+    conda install -y -c conda-forge r-reshape2
+    conda install -y -c conda-forge r-tidyverse
     echo -e $Green"Extra-conda packages installed successfully....\n"$Off
     echo -e $Green"ALL REQUIRED PACKAGES HAVE BEEN INSTALLED, enjoy rMAP!!....\n"$Off
     echo -e $Red"REMEMBER: '--config' is only run once....\n"$Off
