@@ -1,5 +1,5 @@
 <p align="middle">`
-<img width="648" height="245" src="config-files/logo.png">
+<img width="500" height="245" src="config-files/logo.png">
 </p>
 <a href="https://github.com/GunzIvan28/rMAP/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/GunzIvan28/rMAP?color=blue"></a>
 
