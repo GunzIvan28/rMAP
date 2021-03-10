@@ -11,7 +11,7 @@ while [ -h "$rMAP" ]; do
 done
 rMAPDIR="$(cd -P "$(dirname "$rMAP")" && pwd)"
 #Defining Color codes
-Off="\033[0m"      # Text Reset
+Off="\033[0m"       # Text Reset
 Red="\033[1;31m"    # Red
 Yellow="\033[1;33m" # Yellow
 Blue="\033[1;34m"   # Blue
@@ -69,7 +69,7 @@ logo() {
                                                                                              )                                          (
 
 EOF
-echo -e ${Off}
+    echo -e ${Off}
 }
 
 usage() {
@@ -127,7 +127,7 @@ OTHER OPTIONS:
                      
 For further explanation please visit: https://github.com/GunzIvan28/rMAP
 EOF
-echo -e ${Off}
+    echo -e ${Off}
 }
 
 if [ $# == 0 ]; then
@@ -246,7 +246,7 @@ while [[ $# -gt 0 ]]; do
 
 done
 set -- "${POSITIONAL[@]}" #restore positional parameters
-# ####------------------------------------------------------------EOF MENU-------------------------------------------------####
+#####------------------------------------------------------------EOF MENU-------------------------------------------------####
 cd
 ############### --------------  EXTRA-PACKAGES INSTALLATION     --------------------------------#########################
 
@@ -256,26 +256,19 @@ if [ $CONFIG -ne "0" ]; then
     echo -e $Green"rMAP will now configure the system: Please be patient...\n"
     echo -e $Green"rMAP will now install missing R-packages...."$Off
     #### R-package istallations ########
-    conda install -y -c conda-forge r-biocmanager
-    Rscript -e 'library(BiocManager);BiocManager::install(c("ggtree", "rmarkdown"))'
+    # conda install -y -c conda-forge r-biocmanager
+    # Rscript -e 'library(BiocManager);BiocManager::install(c("ggtree", "rmarkdown"))'
+    Rscript -e 'library(BiocManager);BiocManager::install(c("data.table", "formattable"))'
     echo -e $Green"R-packages installed successfully....\n"$Off
     #### Extra-conda package installations
-    pip install pbr --ignore-installed
-    pip3 install deviaTE
-    conda install -y -c conda-forge beautifulsoup4
-    conda install -y -c conda-forge r-gridextra
-    conda install -y -c conda-forge r-kableextra
-    conda install -y -c conda-forge r-plotly
-    conda install -y -c conda-forge r-devtools
-    conda install -y -c conda-forge r-reshape2
-    conda install -y -c conda-forge r-tidyverse
+    # conda install -y -c conda-forge beautifulsoup4
+    # conda install -y -c conda-forge r-gridextra
+    # conda install -y -c conda-forge r-kableextra
+    # conda install -y -c conda-forge r-plotly
+    # conda install -y -c conda-forge r-devtools
+    # conda install -y -c conda-forge r-reshape2
+    # conda install -y -c conda-forge r-tidyverse
     echo -e $Green"Extra-conda packages installed successfully....\n"$Off
-    #### ORFfinder required by MGE-pipeline ####
-    wget ftp://ftp.ncbi.nlm.nih.gov/genomes/TOOLS/ORFfinder/linux-i64/ORFfinder.gz -P miniconda3/envs/rMAP-1.0/config-files
-    gunzip miniconda3/envs/rMAP-1.0/config-files/ORFfinder.gz
-    chmod 777 miniconda3/envs/rMAP-1.0/config-files/ORFfinder
-    cp -rf miniconda3/envs/rMAP-1.0/config-files/ORFfinder miniconda3/envs/rMAP-1.0/bin
-    echo -e $Green"ORFfinder installed successfully....\n"$Off
     echo -e $Green"ALL REQUIRED PACKAGES HAVE BEEN INSTALLED, enjoy rMAP!!....\n"$Off
     echo -e $Red"REMEMBER: '--config' is only run once....\n"$Off
     end=$SECONDS
@@ -364,7 +357,7 @@ else
 
 fi
 cd
-# ############################### QUALITY TRIMMING ####################################
+################################ QUALITY TRIMMING ####################################
 
 CPUS=8
 if [ -e "$ADAPTERS" ]; then
@@ -393,7 +386,7 @@ start=$SECONDS
 echo -e $Blue"\nrMAP is now Generating Trimming Stats..."$Off
 for x in $(cat $OUTPUT/list.txt); do
     echo -e $Blue"Processing sample: $x"$Off
-    cat $OUTPUT/trimmed_reads/$x\.clean_*.fastq.gz | awk -b 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("total\tavg\n%d\t%f\n",n,m,sq/n-m*m);}' > $OUTPUT/trimmed_reads/$x\.ok.stats.txt
+    cat $OUTPUT/trimmed_reads/$x\.clean_*.fastq.gz | awk -b 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("total\tavg\n%d\t%f\n",n,m,sq/n-m*m);}' >$OUTPUT/trimmed_reads/$x\.ok.stats.txt
     sed -i 's/\..*//' $OUTPUT/trimmed_reads/$x\.ok.stats.txt
     #######cp -rf $OUTPUT/trimmed_reads/*.txt $OUTPUT/reports
 done
@@ -872,6 +865,7 @@ METADATA="$OUTPUT/list.txt"
 TAB="$(printf '\t')"
 TITLE="rMAP Comprehensive Analysis Report Summary"
 DATE="$(date +"%Y-%m-%d")"
+mkdir -p -m 777 $OUTPUT/reports
 # #### Creating Assembly report #############
 for i in $(cat $METADATA); do
     tail -n +2 $OUTPUT/trimmed_reads/$i\.ok.stats.txt >>$OUTPUT/temp2
@@ -945,10 +939,13 @@ for i in $(cat $METADATA); do
     sed -i 's/#FILE/FILE/g' $OUTPUT/reports/${i}_plasmids.tab
 done
 ##### 4. Virulence factor formatting ######
+SED="$HOME/miniconda3/envs/rMAP-1.0/bin/sed"
 for i in $(cat $METADATA); do
     cp -rf $OUTPUT/virulence_factors/${i}.tab $OUTPUT/reports/
-    mv $OUTPUT/reports/${i}.tab $OUTPUT/reports/${i}_vfdb.tab
-    sed -i 's/\.fa//' $OUTPUT/reports/${i}_vfdb.tab
+    sed -i 's/\.fa//' $OUTPUT/reports/${i}.tab
+    cut -d$'\t' -f2-6,10-11,13-14 $OUTPUT/reports/${i}.tab >$OUTPUT/reports/${i}_vfdb.tab
+    $SED -i '1d' $OUTPUT/reports/${i}_vfdb.tab
+    $SED -i "1iContig${TAB}Start${TAB}End${TAB}Strand${TAB}Gene${TAB}Coverage${TAB}Identity${TAB}Accession${TAB}Product" $OUTPUT/reports/${i}_vfdb.tab
 done
 
 ###### 5. Pangenome analysis formatting #####
@@ -974,13 +971,46 @@ cp -rf $OUTPUT/mlsts/mlst.tab $OUTPUT/reports
 cp -rf $OUTPUT/phylogeny/combined.filt-algn.phy.treefile $OUTPUT/reports/
 mv $OUTPUT/reports/combined.filt-algn.phy.treefile $OUTPUT/reports/combined.filt-algn.phy.newick
 #### 5. Vcf file compilation
-for x in $(cat $METADATA); do 
-    cp -rf $OUTPUT/variant_calling/${x}.annot.tab $OUTPUT/reports/ 
-    cat $OUTPUT/reports/${x}.annot.tab | grep "snp" | grep "missense_variant" | grep "resistance" >>$OUTPUT/reports/${x}_amr_snps.tab 
-    cut -d$'\t' -f2-5,11,13-14 $OUTPUT/reports/${x}_amr_snps.tab >$OUTPUT/reports/${x}_amr_snps 
+for x in $(cat $METADATA); do
+    cp -rf $OUTPUT/variant_calling/${x}.annot.tab $OUTPUT/reports/
+    cat $OUTPUT/reports/${x}.annot.tab | grep "snp" | grep "missense_variant" | grep "resistance" >>$OUTPUT/reports/${x}_amr_snps.tab
+    cut -d$'\t' -f2-5,11,13-14 $OUTPUT/reports/${x}_amr_snps.tab >$OUTPUT/reports/${x}_amr_snps
     sed -i "1iGenomePosition${TAB}Type${TAB}ReferenceAllele${TAB}AlternateAllele${TAB}Consequence${TAB}AffectedGene${TAB}Product" $OUTPUT/reports/${x}_amr_snps
 done
 rm -rf $OUTPUT/reports/*amr_snps.tab && rm -rf $OUTPUT/reports/*.annot.tab
+
+#### 6. Insertion sequence work-up
+#Variables
+INSR="$OUTPUT/insertion_sequences/is_sequences.txt"
+FILES="$OUTPUT/insertion_sequences"
+SED="$HOME/miniconda3/envs/rMAP-1.0/bin/sed"
+LIST="$OUTPUT/insertion_sequences/list2.txt"
+
+cd
+mkdir -p $FILES/temp
+cp -r $HOME/miniconda3/envs/rMAP-1.0/config-files/IS.database.fa $FILES
+cat $FILES/IS.database.fa | grep ">" | sed -r 's/^.{1}//' | sort -u | uniq >>$FILES/is_sequences.txt
+for i in $(cat $METADATA); do
+    for j in $(cat $INSR); do
+        if $(grep -xq "No hits found" $FILES/$i/$i.clean/$j/*.txt 2>/dev/null); then
+            :
+        else
+            cat $FILES/$i/$i.clean/$j/*.txt >$FILES/$i/$j.txt
+            mv $FILES/$i/$j.txt $FILES/$i/$i\_$j.txt
+            cp -rf $FILES/$i/$i\_$j.txt $FILES/temp
+            cat $FILES/temp/$i\_$j.txt >>$FILES/temp/$i\_inseq1.txt
+            cat $FILES/temp/$i\_inseq1.txt | sort | uniq >$FILES/temp/$i\_inseq2.txt
+            cut -d$'\t' -f1-6,9-10,13-14 $FILES/temp/$i\_inseq2.txt >$FILES/temp/$i\_inseq.txt
+            $SED -i '1d' $FILES/temp/$i\_inseq.txt
+            $SED -i "1iRegion${TAB}Orientation${TAB}X-coordinates${TAB}Y-coordinates${TAB}Gap${TAB}CallType${TAB}LeftGene${TAB}LeftGeneDescription${TAB}RightGene${TAB}RightGeneDescription" $FILES/temp/$i\_inseq.txt
+            cp -rf $FILES/temp/$i\_inseq.txt $OUTPUT/reports
+        fi
+    done
+done
+
+ls $OUTPUT/reports/*_inseq.txt >$FILES/temp/temp.txt
+cat $FILES/temp/temp.txt | cut -d_ -f1 | cut -d/ -f3 | uniq >$FILES/list2.txt
+cp -rf $HOME/miniconda3/envs/rMAP-1.0/config-files/logo.png $OUTPUT/reports
 ###### MARKDOWN SAMPLE RUN ############
 cat <<EOF >$OUTPUT/reports/rMAP_report.Rmd
 ---
@@ -998,8 +1028,22 @@ library(RColorBrewer)
 library(reshape2)
 library(treeio)
 library(ape)
+library(data.table)
+library(dplyr)
+library(formattable)
+library(tidyr)
+
+### Set a few color variables to make our table more visually appealing
+customGreen = "#21f705"
+customRed = "#ff7f7f"
+customBlue = "#05f7e3"
+customYellow = "#fcf80a"
+customPink = "#ffc5d9"
+customLightBlue = "#b3f6f2"
+customOrange = "#fce48a"
 knitr::opts_chunk\$set(dpi=120, fig.align = "center", error = TRUE)
 \`\`\`
+![](logo.png){width=45%} ![](logo.png){width=45%}
 
 #### This run was generated using rMAP version $VERSION performed on $DATE... Thank you for using this pipeline!!
 <br>
@@ -1021,9 +1065,9 @@ cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 ## Assembly summary statistics {#assembly}
 <br>
 
-Field | Description
------ | ---------------------------------------------------------------------------------------
-**SampleID** | Name of the sample
+| Field | Description |
+:----- | :---------------------------------------------------------------- |
+**SampleID** | Name of the sample 
 **TrimReads** | Total number of reads after quality filtering
 **MeanReadLen** | Average read length after quality filtering
 **Contigs** | Number of contigs of the draft genome (>200bp)
@@ -1038,19 +1082,30 @@ EOF
 cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 
 \`\`\`{r, echo=FALSE}
+options(warn=-1)
 seqdata=read.table('assembly_report.txt', header = T, sep = '\t', dec = '.')
 colnames(seqdata)=c('SampleID', 'TrimReads', 'MeanReadLen', 'Contigs', 'GenomeLength', 'LargestContig', 'N50', 'GC-Content', 'Depth')
-kable(seqdata, results='asis', align = 'c')
+formattable(seqdata,align=c("l","c","c","c","c","c","c","c","r"),list('SampleID' = formatter("span", style = ~ style(color = "black",font.weight = "bold")),
+                                                                   'TrimReads'= color_tile(customPink, customPink),
+                                                                   'MeanReadLen'= color_tile(customPink, customPink),
+                                                                   'Contigs'= color_tile(customPink, customPink),
+                                                                   'GenomeLength' = color_tile(customPink, customPink),
+                                                                   'LargestContig' = color_tile(customPink, customPink),
+                                                                   'N50' = color_tile(customPink, customPink),
+                                                                   'GC-Content' = color_tile(customPink, customPink),
+                                                                   'Depth' = color_tile(customPink, customPink)))
+
 \`\`\`
 
 #### Select the parameter {.tabset .tabset-fade .tabset-pills}
 ##### Number of reads
 \`\`\`{r, echo=FALSE}
+options(warn=-1)
 options("scipen"=100, "digits"=0)
 x=seqdata\$SampleID
 y=seqdata\$TrimReads
 a <- list(title = "Number of reads", showticklabels = TRUE, exponentformat = "E")
-plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(0, 100%, 60%)")) %>%
+plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(339, 100%, 89%)")) %>%
 layout(yaxis = a)
 \`\`\`
 Average number of reads per sample = **\`r mean(seqdata\$TrimReads, na.rm=TRUE)\`**
@@ -1060,7 +1115,7 @@ Average number of reads per sample = **\`r mean(seqdata\$TrimReads, na.rm=TRUE)\
 x=seqdata\$SampleID
 y=seqdata\$MeanReadLen
 a <- list(title = "Average read length", showticklabels = TRUE, exponentformat = "E")
-plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(180, 100%, 25%)")) %>%
+plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(176, 79%, 83%)")) %>%
 layout(yaxis = a)
 \`\`\`
 Average read length per sample = **\`r mean(seqdata\$MeanReadLen, na.rm=TRUE)\` bp**
@@ -1070,7 +1125,7 @@ Average read length per sample = **\`r mean(seqdata\$MeanReadLen, na.rm=TRUE)\` 
 x=seqdata\$SampleID
 y=seqdata\$Contigs
 a <- list(title = "Number of contigs", showticklabels = TRUE, exponentformat = "E")
-plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(270, 100%, 50%)")) %>%
+plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(113, 96%, 49%)")) %>%
 layout(yaxis = a)
 \`\`\`
 Average number of contigs per sample = **\`r mean(seqdata\$Contigs)\`**
@@ -1080,7 +1135,7 @@ Average number of contigs per sample = **\`r mean(seqdata\$Contigs)\`**
 x=seqdata\$SampleID
 y=seqdata\$GenomeLength
 a <- list(title = "Genome length", showticklabels = TRUE, exponentformat = "E")
-plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(330, 100%, 50%)")) %>%
+plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(305, 96%, 49%)")) %>%
 layout(yaxis = a)
 \`\`\`
 Average genome length per sample = **\`r mean(seqdata\$GenomeLength)\` bp**
@@ -1090,7 +1145,7 @@ Average genome length per sample = **\`r mean(seqdata\$GenomeLength)\` bp**
 x=seqdata\$SampleID
 y=seqdata\$LargestContig
 a <- list(title = "Largest contig length", showticklabels = TRUE, exponentformat = "E")
-plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(300, 100%, 50%)")) %>%
+plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(47, 95%, 76%)")) %>%
 layout(yaxis = a)
 \`\`\`
 Average largest contig length per sample = **\`r mean(seqdata\$LargestContig)\` bp**
@@ -1100,7 +1155,7 @@ Average largest contig length per sample = **\`r mean(seqdata\$LargestContig)\` 
 x=seqdata\$SampleID
 y=seqdata\$N50
 a <- list(title = "N50", showticklabels = TRUE, exponentformat = "E")
-plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(210, 100%, 50%)")) %>%
+plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(0, 100%, 75%)")) %>%
 layout(yaxis = a)
 \`\`\`
 Average N50 per sample = **\`r mean(seqdata\$N50)\` bp**
@@ -1111,7 +1166,7 @@ options("scipen"=0, "digits"=3)
 x=seqdata\$SampleID
 y=seqdata\$'GC-Content'
 a <- list(title = "GC content (%)", showticklabels = TRUE, exponentformat = "E")
-plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(30, 100%, 50%)")) %>%
+plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(175, 96%, 49%)")) %>%
 layout(yaxis = a)
 \`\`\`
 Average GC content per sample = **\`r mean(seqdata\$'GC-Content')\`%**
@@ -1123,7 +1178,7 @@ seqdata\$Depth=as.numeric(seqdata\$Depth)
 x=seqdata\$SampleID
 y=seqdata\$Depth
 a <- list(title = "Sequencing depth (X)", showticklabels = TRUE, exponentformat = "E")
-plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(90, 100%, 40%)")) %>%
+plot_ly(x=x, y=y, type = "bar", marker = list(color = "hsl(69, 96%, 49%)")) %>%
 layout(yaxis = a)
 \`\`\`
 Average sequencing depth = **\`r mean(seqdata\$Depth, na.rm=TRUE)\`X**
@@ -1136,12 +1191,27 @@ EOF
 
 cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 ## SNP-variant calling {#snps}
+<br>
+
+| Field | Description |
+:----- | :---------------------------------------------------------------- |
+**GenomePosition** | Position in the genome where SNP is found
+**Type** | Nature of the SNP identified (Only 'True' SNPs are shown by default)
+**ReferenceAllele** | Allele found in the reference genome
+**AlternateAllele** | Allele found in the genome of interest forming the SNP
+**Consequence** | Amino acid alterations caused by the SNP
+**AffectedGene** | The tartget gene affected by the SNP
+**Product** | The outcome from the presence of the SNP
+
+<br>
+
 #### Select the sample {.tabset .tabset-fade .tabset-pills}
 EOF
 for i in $(cat $METADATA); do
     cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 ##### $i
 \`\`\`{r, echo=FALSE, message=FALSE, error=TRUE}
+options(warn=-1)
 snps=read.table("${i}_amr_snps", header = T, sep = "\t", dec = ".", quote = "")
 snps=as.data.frame(snps)
 snpsdata=cbind(snps[,1:7])
@@ -1151,10 +1221,16 @@ row.names(snps)=NULL
 if (nrow(snps)==0){
   print ("NO ANTIBIOTIC-ASSOCIATED SNPS DETECTED!!!")
 } else {
-kable(snps, results='asis', align="c")
+formattable(snps,align=c("l","c","c","c","c","c","r"),list('GenomePosition' = formatter("span", style = ~ style(color = "blue",font.weight = "bold")),
+'Type'= color_tile(customYellow, customYellow),
+'ReferenceAllele'= color_tile(customYellow, customYellow),
+'AlternateAllele'= color_tile(customYellow, customYellow),
+'Consequence' = color_tile(customYellow, customYellow),
+'AffectedGene' = color_tile(customYellow, customYellow),
+'Product' = color_tile(customYellow, customYellow)))
 }
-\`\`\`
 
+\`\`\`
 EOF
 done
 cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
@@ -1173,7 +1249,7 @@ if [ -s $OUTPUT/reports/combined.filt-algn.phy.newick ]; then
 \`\`\`{r, echo=FALSE, message=FALSE}
 tree=read.newick("combined.filt-algn.phy.newick")
 treelim=20*mean(tree\$edge.length)
-ggtree(tree) + geom_tiplab(size=3, color='red') + xlim_tree(treelim) + geom_nodepoint(color="#0A7EF3", alpha=1/4, size=5) + geom_treescale(fontsize=4, linesize=1, offset=1)
+ggtree(tree) + geom_tiplab(size=3, color='black') + xlim_tree(treelim) + geom_nodepoint(color="#0A7EF3", alpha=1/4, size=5)
 \`\`\`
 
 ##### Circular (phylogram)
@@ -1211,8 +1287,8 @@ cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 ## Antimicrobial Resistance Profiling {#amr}
 <br>
 
-Field | Description
------ | -------------------------------------------------------------------------
+| Field | Description |
+:----- | :---------------------------------------------------------------- |
 **Contig** | Contig name where the gene was found
 **Start** | Start position of the gene within the contig
 **End** | End position of the gene within the contig
@@ -1233,6 +1309,7 @@ for i in $(cat $METADATA); do
 ##### $i {.tabset .tabset-fade .tabset-pills}
 ###### Resfinder
 \`\`\`{r, echo=FALSE}
+options(warn=-1)
 ABresfinder=read.table("${i}_resfinder.tab", header = T, sep = "\t", dec = ".", quote = "")
 ABresfinder=as.data.frame(ABresfinder)
 Resfdata=cbind(ABresfinder[,2:4], ABresfinder[,6], ABresfinder[,9:11], ABresfinder[,13:15])
@@ -1244,12 +1321,23 @@ row.names(ABresfinder)=NULL
 if (nrow(ABresfinder)==0){
   print ("No antibiotic resistance genes from Resfinder database were found")
 } else {
-kable(ABresfinder, results='asis', align="c")
+formattable(ABresfinder,align=c("l","c","c","c","c","c","c","c","c","r"),list('Contig' = formatter("span", style = ~ style(color = "black",font.weight = "bold")),
+                                                                   'Start'= color_tile(customOrange, customOrange),
+                                                                   'End'= color_tile(customOrange, customOrange),
+                                                                   'Gene'= color_tile(customOrange, customOrange),
+                                                                   'Gaps' = color_tile(customOrange, customOrange),
+                                                                   'Coverage' = color_tile(customOrange, customOrange),
+                                                                   'Identity' = color_tile(customOrange, customOrange),
+                                                                   'Accession' = color_tile(customOrange, customOrange),
+                                                                   'Product' = color_tile(customOrange, customOrange),
+                                                                   'Resistance' = color_tile(customOrange, customOrange)
+                                                                   ))
 }
 \`\`\`
 
 ###### CARD
 \`\`\`{r, echo=FALSE}
+options(warn=-1)
 ABcard=read.table("${i}_card.tab", header = T, sep = "\t", dec = ".", quote = "")
 ABcard=as.data.frame(ABcard)
 carddata=cbind(ABcard[,2:4], ABcard[,6], ABcard[,9:11], ABcard[,13:15])
@@ -1261,12 +1349,23 @@ row.names(ABcard)=NULL
 if (nrow(ABcard)==0){
   print ("No antibiotic resistance genes from CARD database were found")
 } else {
-kable(ABcard, results='asis', align="c")
+formattable(ABcard,align=c("l","c","c","c","c","c","c","c","c","r"),list('Contig' = formatter("span", style = ~ style(color = "black",font.weight = "bold")),
+                                                                   'Start'= color_tile(customBlue, customBlue),
+                                                                   'End'= color_tile(customBlue, customBlue),
+                                                                   'Gene'= color_tile(customBlue, customBlue),
+                                                                   'Gaps' = color_tile(customBlue, customBlue),
+                                                                   'Coverage' = color_tile(customBlue, customBlue),
+                                                                   'Identity' = color_tile(customBlue, customBlue),
+                                                                   'Accession' = color_tile(customBlue, customBlue),
+                                                                   'Product' = color_tile(customBlue, customBlue),
+                                                                   'Resistance' = color_tile(customBlue, customBlue)
+                                                                   ))
 }
 \`\`\`
 
 ###### ARG-ANNOT
 \`\`\`{r, echo=FALSE}
+options(warn=-1)
 ABargannot=read.table("${i}_argannot.tab", header = T, sep = "\t", dec = ".", quote = "")
 ABargannot=as.data.frame(ABargannot)
 argannotdata=cbind(ABargannot[,2:4], ABargannot[,6], ABargannot[,9:11], ABargannot[,13:15])
@@ -1278,12 +1377,23 @@ row.names(ABargannot)=NULL
 if (nrow(ABargannot)==0){
   print ("No antibiotic resistance genes from ARG-ANNOT database were found")
 } else {
-kable(ABargannot, results='asis', align="c")
+formattable(ABargannot,align=c("l","c","c","c","c","c","c","c","c","r"),list('Contig' = formatter("span", style = ~ style(color = "black",font.weight = "bold")),
+                                                                   'Start'= color_tile(customPink, customPink),
+                                                                   'End'= color_tile(customPink, customPink),
+                                                                   'Gene'= color_tile(customPink, customPink),
+                                                                   'Gaps' = color_tile(customPink, customPink),
+                                                                   'Coverage' = color_tile(customPink, customPink),
+                                                                   'Identity' = color_tile(customPink, customPink),
+                                                                   'Accession' = color_tile(customPink, customPink),
+                                                                   'Product' = color_tile(customPink, customPink),
+                                                                   'Resistance' = color_tile(customPink, customPink)
+                                                                   ))
 }
 \`\`\`
 
 ###### NCBI
 \`\`\`{r, echo=FALSE}
+options(warn=-1)
 ABncbi=read.table("${i}_ncbi.tab", header = T, sep = "\t", dec = ".", quote = "")
 ABncbi=as.data.frame(ABncbi)
 ncbidata=cbind(ABncbi[,2:4], ABncbi[,6], ABncbi[,9:11], ABncbi[,13:15])
@@ -1295,12 +1405,23 @@ row.names(ABncbi)=NULL
 if (nrow(ABncbi)==0){
   print ("No antibiotic resistance genes from NCBI database were found")
 } else {
-kable(ABargannot, results='asis', align="c")
+formattable(ABncbi,align=c("l","c","c","c","c","c","c","c","c","r"),list('Contig' = formatter("span", style = ~ style(color = "black",font.weight = "bold")),
+                                                                   'Start'= color_tile(customYellow, customYellow),
+                                                                   'End'= color_tile(customYellow, customYellow),
+                                                                   'Gene'= color_tile(customYellow, customYellow),
+                                                                   'Gaps' = color_tile(customYellow, customYellow),
+                                                                   'Coverage' = color_tile(customYellow, customYellow),
+                                                                   'Identity' = color_tile(customYellow, customYellow),
+                                                                   'Accession' = color_tile(customYellow, customYellow),
+                                                                   'Product' = color_tile(customYellow, customYellow),
+                                                                   'Resistance' = color_tile(customYellow, customYellow)
+                                                                   ))
 }
 \`\`\`
 
 ###### MEGARES
 \`\`\`{r, echo=FALSE}
+options(warn=-1)
 ABmegares=read.table("${i}_megares.tab", header = T, sep = "\t", dec = ".", quote = "")
 ABmegares=as.data.frame(ABmegares)
 megaresdata=cbind(ABmegares[,2:4], ABmegares[,6], ABmegares[,9:11], ABmegares[,13:15])
@@ -1312,7 +1433,17 @@ row.names(ABmegares)=NULL
 if (nrow(ABmegares)==0){
   print ("No antibiotic resistance genes from MEGARES database were found")
 } else {
-kable(ABmegares, results='asis', align="c")
+formattable(ABncbi,align=c("l","c","c","c","c","c","c","c","c","r"),list('Contig' = formatter("span", style = ~ style(color = "black",font.weight = "bold")),
+                                                                   'Start'= color_tile(customRed, customRed),
+                                                                   'End'= color_tile(customRed, customRed),
+                                                                   'Gene'= color_tile(customRed, customRed),
+                                                                   'Gaps' = color_tile(customRed, customRed),
+                                                                   'Coverage' = color_tile(customRed, customRed),
+                                                                   'Identity' = color_tile(customRed, customRed),
+                                                                   'Accession' = color_tile(customRed, customRed),
+                                                                   'Product' = color_tile(customRed, customRed),
+                                                                   'Resistance' = color_tile(customRed, customRed)
+                                                                   ))
 }
 \`\`\`
 
@@ -1396,12 +1527,30 @@ EOF
 if [ -d /$HOME/$OUTPUT/reports ]; then
     cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 ## Plasmid Profiling {#plasmids}
+
+<br>
+
+| Field | Description |
+:----- | :---------------------------------------------------------------- |
+**Contig** | Contig name where the gene was found
+**Start** | Start position of the gene within the contig
+**End** | End position of the gene within the contig
+**Gene** | Antibiotic resistance gene
+**Gaps** | Gaps in subject (genome) and query (antibiotic resistance gene)
+**Coverage** | Proportion (%) of the gene covered
+**Identity** | Proportion (%) of exact nucleotide matches
+**Accession** | Accesion number of the antibiotic resistance gene
+**Product** | Antibiotic resistance gene product
+
+<br>
+
 #### Select sample {.tabset .tabset-fade .tabset-pills}
 EOF
     for i in $(cat $METADATA); do
         cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 ##### $i
 \`\`\`{r, echo=FALSE, message=FALSE, error=TRUE}
+options(warn=-1)
 plasmids=read.table("${i}_plasmids.tab", header = T, sep = "\t", dec = ".", quote = "")
 plasmids=as.data.frame(plasmids)
 plasmidsdata=cbind(plasmids[,2:4], plasmids[,6], plasmids[,9:11], plasmids[,13:14])
@@ -1415,7 +1564,16 @@ if (nrow(plasmids)==0){
 } else if (dim(plasmids)[1]==0 ){
     print ("NO PLASMID FOUND!!")
 } else {
-kable(plasmids, results='asis', align="c")
+formattable(plasmids,align=c("l","c","c","c","c","c","c","c","c","r"),list('Contig' = formatter("span", style = ~ style(color = "black",font.weight = "bold")),
+                                                                   'Start'= color_tile(customPink, customPink),
+                                                                   'End'= color_tile(customPink, customPink),
+                                                                   'Gene'= color_tile(customPink, customPink),
+                                                                   'Gaps' = color_tile(customPink, customPink),
+                                                                   'Coverage' = color_tile(customPink, customPink),
+                                                                   'Identity' = color_tile(customPink, customPink),
+                                                                   'Accession' = color_tile(customPink, customPink),
+                                                                   'Product' = color_tile(customPink, customPink)
+                                                                   ))
 }
 \`\`\`
 
@@ -1439,24 +1597,48 @@ fi
 
 cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 ## Virulence Factor Determination {#virulencefactors}
+
+<br>
+
+| Field | Description |
+:----- | :---------------------------------------------------------------- |
+**Contig** | Contig name where the gene was found
+**Start** | Start position of the gene within the contig
+**End** | End position of the gene within the contig
+**Gene** | Antibiotic resistance gene
+**Coverage** | Proportion (%) of the gene covered
+**Identity** | Proportion (%) of exact nucleotide matches
+**Accession** | Accesion number of the antibiotic resistance gene
+**Product** | Antibiotic resistance gene product
+
+<br>
+
 #### Select the sample {.tabset .tabset-fade .tabset-pills}
 EOF
 for i in $(cat $METADATA); do
     cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 ##### $i
 \`\`\`{r, echo=FALSE, message=FALSE, error=TRUE}
+options(warn=-1)
 vfdb=read.table("${i}_vfdb.tab", header = T, sep = "\t", dec = ".", quote = "")
 vfdb=as.data.frame(vfdb)
-vfdbdata=cbind(vfdb[,2:4], vfdb[,6], vfdb[,9:11], vfdb[,13:14])
-colnames(vfdbdata)=c("Contig", "Start", "End", "Gene", "Gaps", "Coverage", "Identity", "Accession", "Product")
-vfdb = vfdbdata[vfdbdata\$Identity>90,]
-vfdb = vfdb[vfdb\$Coverage>90,]
+vfdbdata=cbind(vfdb[,1:9])
+colnames(vfdbdata)=c("Contig", "Start", "End", "Strand", "Gene", "Coverage", "Identity", "Accession", "Product")
 vfdb = vfdb[order(vfdb\$Gene),]
 row.names(vfdb)=NULL
 if (nrow(vfdb)==0){
   print ("NO VIRULENCE FACTORS DETECTED!!!")
 } else {
-kable(vfdb, results='asis', align="c")
+formattable(vfdb,align=c("l","c","c","c","c","c","c","c","r"),list('Contig' = formatter("span", style = ~ style(color = "black",font.weight = "bold")),
+                                                                   'Start'= color_tile(customBlue, customBlue),
+                                                                   'End'= color_tile(customBlue, customBlue),
+                                                                   'Strand' = color_tile(customBlue, customBlue),
+                                                                   'Gene'= color_tile(customBlue, customBlue),
+                                                                   'Coverage' = color_tile(customBlue, customBlue),
+                                                                   'Identity' = color_tile(customBlue, customBlue),
+                                                                   'Accession' = color_tile(customBlue, customBlue),
+                                                                   'Product' = color_tile(customBlue, customBlue)
+                                                                   ))
 }
 \`\`\`
 
@@ -1475,8 +1657,8 @@ if [ -s /$HOME/$OUTPUT/reports/mlst.tab ]; then
 ## Multi-Locus Sequence Typing (MLST) {#mlst}
 <br>
 
-Symbol | Meaning
------- | ---------------------------------------------------------------------------------------
+| Symbol | Meaning |
+:------ | :----------------------------------------------------------------------- |
 ~ | novel full length allele similar to match
 ? | partial match to known allele
 - | allele missing
@@ -1492,7 +1674,16 @@ colnames(mlst)[2]="ST"
 for (i in 3:ncol(mlst)){
 	colnames(mlst)[i]=i-2
 }
-kable(mlst, results='asis', align = "c")
+formattable(mlst,align=c("l","c","c","c","c","c","c","c","c","r"),list('Scheme' = formatter("span", style = ~ style(color = "black",font.weight = "bold")),
+                                                                   'ST'= color_tile(customPink, customPink),
+                                                                   '1'= color_tile(customPink, customPink),
+                                                                   '2'= color_tile(customPink, customPink),
+                                                                   '3' = color_tile(customPink, customPink),
+                                                                   '4' = color_tile(customPink, customPink),
+                                                                   '5' = color_tile(customPink, customPink),
+                                                                   '6' = color_tile(customPink, customPink),
+                                                                   '7' = color_tile(customPink, customPink)
+                                                                   ))
 \`\`\`
 
 [Back to index](#index)
@@ -1625,6 +1816,65 @@ Pangenome analysis was not performed.
 
 EOF
 fi
+
+cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
+## Insertion sequence characterization {#insertionsequences}
+<br>
+
+| Field | Description |
+:----- | :---------------------------------------------------------------- |
+**Region** | Numeric code given to insertion sequence (IS)
+**Orientation** | The orientation of IS position: Either forward (F) or reverse (F)
+**X-cordinates** | The left coordinate of the position
+**Y-coordinates** | The right coordinate of the position
+**Gap** | The distance between the x and y coordinates
+**CallType** | Describes whether a position hit is novel (not in reference) or known (in the reference)
+**LeftGene** | Locus tag ID of the gene closest to the left side of the IS position
+**LeftGeneDescription** | Description of the gene feature from the left side of the IS position. By default this is the product position
+**RightGene** | Locus tag ID of the gene closest to the right side of the IS position
+**RightGeneDescription** | Description of the gene feature from the right side of the IS position. By default this is the product position
+
+<br>
+
+#### Select the sample {.tabset .tabset-fade .tabset-pills}
+EOF
+for i in $(cat $LIST); do
+    cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
+##### $i
+\`\`\`{r, echo=FALSE, message=FALSE, error=TRUE}
+options(warn=-1)
+iseq=read.table("${i}_inseq.txt", header = T, sep = "\t", dec = ".", quote = "")
+iseq=as.data.frame(iseq)
+iseqdata=cbind(iseq[,1:10])
+colnames(iseqdata)=c("Region", "Orientation", "X-coordinates", "Y-coordinates", "Gap", "CallType", "LeftGene", "LeftGeneDescription", "RightGene", "RightGeneDescription")
+iseq=iseqdata[order(iseqdata\$Region),]
+formattable(iseq,align=c("l","c","c","c","c","c","c","c","c","r"), list('Region' = formatter("span", style = ~ style(color = "black",font.weight = "bold")),
+'Orientation'= color_tile(customBlue, customBlue),
+'X-coordinates'= color_tile(customBlue, customBlue),
+'Y-coordinates'= color_tile(customBlue, customBlue),
+'Gap'= color_tile(customBlue, customBlue),
+'CallType' = color_tile(customBlue, customBlue),
+'LeftGene' = color_tile(customBlue, customBlue),
+'LeftGeneDescription' = color_tile(customBlue, customBlue),
+'RightGene' = color_tile(customBlue, customBlue),
+'RightGeneDescription'= color_tile(customBlue, customBlue),
+as.numeric(gsub(",","",iseq,fixed=TRUE))
+))
+
+\`\`\`
+EOF
+done
+cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
+##
+<br>
+[Back to index](#index)
+
+EOF
+cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
+
+![](logo.png){width=45%} ![](logo.png){width=45%} 
+<br>
+EOF
 
 echo -e "Rscript -e 'library(rmarkdown); rmarkdown::render(\"$OUTPUT/reports/rMAP_report.Rmd\", \"html_document\", encoding=\"UTF-8\")'" >$OUTPUT/reports/render_report.sh
 chmod 755 $OUTPUT/reports/render_report.sh
