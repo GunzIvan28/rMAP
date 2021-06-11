@@ -177,8 +177,10 @@ rMAP was built on the philosophy of universal userbility. Compilation and succes
 
 **1. Installation**
 Follow the installation procedures using the [Miniconda](https://conda.io/miniconda.html) installation instructions above by copying and pasting line-by-line in your terminal.
+
 **2. Downloading sample datasets**
 A dataset comprised of 3 paired-end _Acinetobacter_ Whole-genome sequences and a reference genome can be downloaded using [rMAP_datasets](https://drive.google.com/file/d/1o3uTPDWgzIa_ODkIcT0O0MdB4sdq46dP/view?usp=sharing) link.
+
 **3. Preparing files for rMAP run**
 Open your command line terminal and run the following commands
 
@@ -186,6 +188,7 @@ Open your command line terminal and run the following commands
 `cd && mkdir rMAP_datasets`
 - Unzip the downloaded datasets from the [link](https://drive.google.com/file/d/1o3uTPDWgzIa_ODkIcT0O0MdB4sdq46dP/view?usp=sharing). Copy and paste the fastq.gz sequences of `ERR1989084, ERR1989100,ERR1989115` into `rMAP_datasets`. Copy and paste the reference genome `acinetobacter.gbk` to the `$HOME` directory
 - Activate rMAP environment using `conda activate rMAP-1.0`  and install the pipeline's additional full packages using `rMAP -t 8 -c`.
+
 **4. Running rMAP**
 - After confirming that you have folder `rMAP_datasets` containing sequences `ERR1989084, ERR1989100,ERR1989115`, a reference genome `acinetobacter.gbk` saved at the home directory, and the rMAP dependencies fully installed, run the following command:
 `rMAP -t 8 --reference acinetobacter.gbk --input rMAP_datasets --output Acinetobacter_output --quality --assembly shovill --amr --varcall --trim --phylogeny --pangenome --gen-ele`
