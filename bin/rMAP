@@ -1059,6 +1059,7 @@ knitr::opts_chunk\$set(dpi=120, fig.align = "center", error = TRUE)
 * #### [Multi-Locus Sequence Typing (MLST)](#mlst)
 * #### [Pangenome Analysis](#pangenome)
 * #### [Insertion sequence characterization (IS)](#insertionsequences)
+* #### [Citations and Bibliography](#citations)
 
 EOF
 
@@ -1871,12 +1872,78 @@ cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 [Back to index](#index)
 
 EOF
+
+echo "## Citations and Bibliography {#citations}" >>$OUTPUT/reports/rMAP_report.Rmd
+cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
+If you have used **rMAP**, please cite:
+<br>
+
+<center>
+
+Sserwadda, I., & Mboowa, G. (2021). rMAP: the Rapid Microbial Analysis Pipeline for ESKAPE bacterial group whole-genome sequence data. Microbial genomics, 7(6), 10.1099/mgen.0.000583. https://doi.org/10.1099/mgen.0.000583
+
+</center>
+
+<br>
+
+The philosophy of **rMAP** was built on the foundation of already pre-existing tools. As a token of gratitude to the authors of those numerous tools, please also cite:
+
+- ABRicate, [T. Seemann](https://github.com/tseemann/abricate)
+- AmrfinderPlus, [Feldgarden M. et al., 2019](https://www.ncbi.nlm.nih.gov/pathogens/antimicrobial-resistance/AMRFinder/)
+- Any2fasta, [T. Seemann](https://github.com/tseemann/any2fasta)
+- Assembly-stats, [Sanger Pathogens](https://github.com/sanger-pathogens/assembly-stats)
+- Biopython.convert, [biopython.org](https://github.com/biopython/biopython)
+- Bwa, [Li H. et al., 2009](https://github.com/lh3/bwa)
+- Bmge, [Criscuolo et al., 2010](https://bmcevolbiol.biomedcentral.com/articles/10.1186/1471-2148-10-210)
+- Cairosvg, [cairosvg.org](https://github.com/Kozea/CairoSVG)
+- Fasttree, [M.N. Price et al., 2009](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2693737/)
+- Fastqc, [Andrews S., 2010](https://github.com/s-andrews/FastQC)
+- Freebayes, [Garrison E. et al., 2012](https://github.com/ekg/freebayes)
+- ISmapper, [[Hawkey J. et al., 2015](https://github.com/jhawkey/IS_mapper)
+- Iqtree, [Nguyen L. et al., 2015](https://github.com/Cibiv/IQ-TREE)
+- Kleborate, [Holt KE, 2020](https://github.com/katholt/Kleborate)
+- Mafft, [Katoh K. et L., 2013](https://mafft.cbrc.jp/alignment/software/)
+- Megahit, [Li D. et al., 2015](https://github.com/voutcn/megahit)
+- Mlst, [T. Seemann](https://github.com/tseemann/mlst)
+- Multiqc, [Ewels P., 2016](https://github.com/ewels/MultiQC)
+- Nextflow, [Tommaso et al., 2017](https://github.com/nextflow-io/nextflow)
+- Parallel, [O. Tange, 2011](https://www.gnu.org/software/parallel/)
+- Prodigal, [Hyatt D. et al., 2010](https://github.com/hyattpd/Prodigal)
+- Prokka, [T. Seemann, 2014](https://www.ncbi.nlm.nih.gov/pubmed/24642063)
+- Quast, [A. Gurevich et al., 2013](https://www.ncbi.nlm.nih.gov/pubmed/23422339)
+- R-base, [R Development Core Team, 2008](https://www.r-project.org/)
+    + ggplot2, [H. Wickham, 2009](https://cran.r-project.org/web/packages/ggplot2/index.html)
+	+ ggtree, [G. Yu et al., 2016](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.12628)
+	+ knitr, [Y. Xie, 2015](https://cran.r-project.org/web/packages/knitr/index.html)
+	+ plotly, [C. Sievert et al., 2017](https://cran.r-project.org/web/packages/plotly/index.html)
+	+ RColorBrewer, [E. Neuwirth and R.C. Brewer, 2014](https://cran.r-project.org/web/packages/RColorBrewer/index.html)
+	+ reshape2, [H. Wickham, 2007](https://cran.r-project.org/web/packages/reshape2/index.html)
+	+ rmarkdown, [J.J. Allaire, 2015](https://cran.r-project.org/web/packages/rmarkdown/index.html)
+	+ treeio, [L-G. Wang et al., 2019](https://academic.oup.com/mbe/article-abstract/37/2/599/5601621?redirectedFrom=fulltext)
+- Roary, [A.J. Page et al., 2015](https://www.ncbi.nlm.nih.gov/pubmed/26198102)
+- Samclip, [T. Seemann](https://github.com/tseemann/samclip/)
+- Samtools, [Li H. et al., 2009](https://github.com/samtools/samtools)
+- Shovill, [T. Seemann, 2020](https://github.com/tseemann/shovill)
+- Snippy, [T. Seemann](https://github.com/tseemann/snippy)
+- SnpEff, [Cingolani P. et al., 2012](https://github.com/pcingola/SnpEff)
+- Tormes, [Quijada NM. et al., 2019](https://github.com/nmquijada/tormes)
+- Trimmomatic, [A.M. Bolger et al., 2014](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4103590/)
+- Unicycler, [Wick RR. et al., 2017](https://github.com/rrwick/Unicycler)
+- Vt, [VT](https://github.com/atks/vt)
+
+##
+<br>
+[Back to index](#index)
+EOF
+
 cat <<EOF >>$OUTPUT/reports/rMAP_report.Rmd
 
 ![](logo.png){width=45%} ![](logo.png){width=45%} 
+
 <br>
+[Back to index](#index)
 EOF
 
 echo -e "Rscript -e 'library(rmarkdown); rmarkdown::render(\"$OUTPUT/reports/rMAP_report.Rmd\", \"html_document\", encoding=\"UTF-8\")'" >$OUTPUT/reports/render_report.sh
 chmod 755 $OUTPUT/reports/render_report.sh
-$OUTPUT/reports/render_report.sh
+$OUTPUT/reports/render_report.s
