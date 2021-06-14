@@ -161,7 +161,7 @@ The pipeline also retains the intermediate files and respective folders within t
 
 When using rMAP, please cite as:   
 
-Sserwadda, I., & Mboowa, G. (2021). rMAP: the Rapid Microbial Analysis Pipeline for ESKAPE bacterial group whole-genome sequence data. Microbial genomics, 7(6), 10.1099/mgen.0.000583. https://doi.org/10.1099/mgen.0.000583
+Sserwadda, I., & Mboowa, G. (2021). rMAP: the Rapid Microbial Analysis Pipeline for ESKAPE bacterial group whole-genome sequence data. Microbial genomics, 7(6), 10.1099/mgen.0.000583. https://doi.org/10.1099/mgen.0.000583. PMID: 34110280
 
 ### 🎞️ Credits
 
