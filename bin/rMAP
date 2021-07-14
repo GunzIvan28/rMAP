@@ -1946,4 +1946,4 @@ EOF
 
 echo -e "Rscript -e 'library(rmarkdown); rmarkdown::render(\"$OUTPUT/reports/rMAP_report.Rmd\", \"html_document\", encoding=\"UTF-8\")'" >$OUTPUT/reports/render_report.sh
 chmod 755 $OUTPUT/reports/render_report.sh
-$OUTPUT/reports/render_report.s
+$OUTPUT/reports/render_report.sh
