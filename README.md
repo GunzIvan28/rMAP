@@ -206,7 +206,7 @@ WHERE:
   - A successful run should generate a HTML report similar to the one in this [link](https://gunzivan28.github.io/rMAP/). Submit any queries or bugs to the [Issue Tracker](https://github.com/GunzIvan28/rMAP/issues) platform and the developers will see to it that it is rectified.
 
 ### Acknowledgements
-rMAP was inspired and adapted from the TORMES pipeline, developed by Quijada et al. (2019) and reachable at https://github.com/nmquijada/tormes.
+rMAP was inspired and adapted from the TORMES pipeline, developed by Quijada et al. (2019) and reachable at https://github.com/nmquijada/tormes. The reporting format for rMAP was mainly adapted and modified from the Tormes pipeline
 ### 🔌 Third Party Plugins
 
 This softwares' foundation is built using pre-existing tools. When using it, please don't forget to cite the following:
