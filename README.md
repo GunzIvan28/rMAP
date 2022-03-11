@@ -206,7 +206,27 @@ WHERE:
   - A successful run should generate a HTML report similar to the one in this [link](https://gunzivan28.github.io/rMAP/). Submit any queries or bugs to the [Issue Tracker](https://github.com/GunzIvan28/rMAP/issues) platform and the developers will see to it that it is rectified.
 
 ### Acknowledgements
-rMAP was inspired and adapted from the TORMES pipeline, developed by Quijada et al. (2019) and reachable at https://github.com/nmquijada/tormes. The reporting format for rMAP was mainly adapted and modified from the Tormes pipeline
+rMAP was inspired and adapted from the TORMES pipeline, developed by Quijada et al. (2019) and reachable at https://github.com/nmquijada/tormes. The reporting format for rMAP was mainly adapted and modified from the Tormes pipeline.  Other alternative tools similar to rMAP that you could consider depending on the type analysis to be computed:
+
+__[AQUAMIS](https://gitlab.com/bfr_bioinformatics/AQUAMIS)__  
+Deneke C, Brendebach H, Uelze L, Borowiak M, Malorny B, Tausch SH. *Species-Specific Quality Control, Assembly and Contamination Detection in Microbial Isolate Sequences with AQUAMIS.* __Genes__. 2021;12. doi:10.3390/genes12050644
+
+__[ASA³P](https://github.com/oschwengers/asap)__  
+Schwengers O, Hoek A, Fritzenwanker M, Falgenhauer L, Hain T, Chakraborty T, Goesmann A. *ASA³P: An automatic and scalable pipeline for the assembly, annotation and higher-level analysis of closely related bacterial isolates.* __PLoS Comput Biol__ 2020;16:e1007134. https://doi.org/10.1371/journal.pcbi.1007134.
+
+__[MicroPIPE](https://github.com/BeatsonLab-MicrobialGenomics/micropipe)__  
+Murigneux V, Roberts LW, Forde BM, Phan M-D, Nhu NTK, Irwin AD, Harris PNA, Paterson DL, Schembri MA, Whiley DM, Beatson SA *MicroPIPE: validating an end-to-end workflow for high-quality complete bacterial genome construction.* __BMC Genomics__, 22(1), 474. (2021) https://doi.org/10.1186/s12864-021-07767-z
+
+__[Nullarbor](https://github.com/tseemann/nullarbor)__  
+Seemann T, Goncalves da Silva A, Bulach DM, Schultz MB, Kwong JC, Howden BP. *Nullarbor* __Github__ https://github.com/tseemann/nullarbor 
+
+__[ProkEvo](https://github.com/npavlovikj/ProkEvo)__  
+Pavlovikj N, Gomes-Neto JC, Deogun JS, Benson AK *ProkEvo: an automated, reproducible, and scalable framework for high-throughput bacterial population genomics analyses.* __PeerJ__, e11376 (2021) https://doi.org/10.7717/peerj.11376
+
+__[Public Health Bacterial Genomics](https://github.com/theiagen/public_health_bacterial_genomics)__  
+Libuit K, Ambrosio F, Kapsak C *Public Health Bacterial Genomics* __GitHub__ https://github.com/theiagen/public_health_bacterial_genomics
+
+
 ### 🔌 Third Party Plugins
 
 This softwares' foundation is built using pre-existing tools. When using it, please don't forget to cite the following:
