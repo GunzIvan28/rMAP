@@ -205,7 +205,7 @@ WHERE:
   - `--quality, --assembly shovill, --amr, --varcall, --trim, --phylogeny ,--pangenome, --gen-ele` activate the options for quality control, genome assembly using shovill assembler, antimicrobial resistance gene profiling, sequence trimming, phylogenetic analysis, pangenome and insertion sequence characterization respectively in the rMAP run.
   - A successful run should generate a HTML report similar to the one in this [link](https://gunzivan28.github.io/rMAP/). Submit any queries or bugs to the [Issue Tracker](https://github.com/GunzIvan28/rMAP/issues) platform and the developers will see to it that it is rectified.
 
-### Acknowledgements
+### 🙏 Acknowledgements
 rMAP was inspired and adapted from the TORMES pipeline, developed by Quijada et al. (2019) and reachable at https://github.com/nmquijada/tormes. The reporting format for rMAP was mainly adapted and modified from the Tormes pipeline.  Other alternative tools similar to rMAP that you could consider depending on the type analysis to be computed:
 
 __[AQUAMIS](https://gitlab.com/bfr_bioinformatics/AQUAMIS)__  
