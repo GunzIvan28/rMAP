@@ -407,7 +407,7 @@ if [ "$ASSEMBLY" == "shovill" ]; then
         B=${sample}.clean_2.fastq.gz
 
         echo -e $Blue"Processing sample: $sample"$Off
-        shovill --R1 $OUTPUT/trimmed_reads/$A --R2 $OUTPUT/trimmed_reads/$B --cpus $CPUS --gsize 3.4M --assembler skesa --ram 8 --force --outdir $OUTPUT/assembly/${sample}
+        shovill --R1 $OUTPUT/trimmed_reads/$A --R2 $OUTPUT/trimmed_reads/$B --cpus $CPUS --gsize 3.4M bat--ram 8 --force --outdir $OUTPUT/assembly/${sample}
         mv $OUTPUT/assembly/${sample}/contigs.fa $OUTPUT/assembly/${sample}/${sample}.fa
         assembly-stats -t $OUTPUT/assembly/${sample}/${sample}.fa >$OUTPUT/assembly/${sample}/${sample}-assembly-stats.tab
         assembly-stats -t $OUTPUT/assembly/${sample}/${sample}.fa >$OUTPUT/assembly/${sample}/${sample}-assembly-stats.txt
