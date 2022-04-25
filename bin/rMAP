@@ -559,9 +559,9 @@ if [ "$VARCALL" -ne "0" ]; then
         echo -e $Green"Your Variant Annotation Run Took Approximately: $((end - start)) seconds."$Off | tee -a $OUTPUT/rMAP.log
         ######################------------------Multiple/All-sample Annotation--------------------------##############################
         start=$SECONDS
-        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-4.5covid19-1/snpEff.jar
-        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-4.5covid19-1/*
-        SNPEFF="$HOME/miniconda3/envs/rMAP-1.0/share/snpeff-4.5covid19-1"
+        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1/snpEff.jar
+        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1/*
+        SNPEFF="$HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1"
         TEMP="$OUTPUT/references"
         y="$(cat $TEMP/temp1.txt)"
         mkdir -p $OUTPUT/variant_calling/snps/combined-snps/references/{genomes,ref}
