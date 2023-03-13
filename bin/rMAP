@@ -270,7 +270,7 @@ if [ $CONFIG -ne "0" ]; then
     conda install -y -c conda-forge r-tidyverse
     echo -e $Green"Extra-conda packages installed successfully....\n"$Off
     echo -e $Green"ALL REQUIRED PACKAGES HAVE BEEN INSTALLED, enjoy rMAP!!....\n"$Off
-    amrfinder --update
+    #amrfinder --update
     echo -e $Red"REMEMBER: '--config' is only run once....\n"$Off
     end=$SECONDS
     echo -e $Green"\nrMAP Set-up Lasted Approximately: $((end - start)) seconds."$Off
