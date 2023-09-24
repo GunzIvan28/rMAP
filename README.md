@@ -103,7 +103,7 @@ OTHER OPTIONS:
 
     -s/--pangenome  Perform pangenome analysis. A minimum of 3 samples should be provided to run this option
 
-    -g/--gen-ele    Interrogates and profiles for mobile genomic elements(MGE) and insertion sequeces(IS) that
+    -g/--gen-ele    Interrogates and profiles for mobile genomic elements(MGE) and insertion sequences(IS) that
                     may exist in the sequences
 
 For further explanation please visit: https://github.com/GunzIvan28/rMAP
