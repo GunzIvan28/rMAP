@@ -44,7 +44,7 @@ Install [Miniconda](https://conda.io/miniconda.html) by running the following co
 `cd rMAP`  
 `conda update -n base -y -c defaults conda`
 
-Select the appropriate installer for your computer (either `rMAP-1.0-Linux-installer.yml` or `rMAP-1.0-macOs-installer.yml`)
+Select the appropriate installer for your computer (either `rMAP-1.0-Linux-installer.yml` or `rMAP-1.0-MacOs-installer.yml`)
 
 **For Linux Users**: `conda env create -n rMAP-1.0 --file rMAP-1.0-Linux-installer.yml`  
 **For MacOS Users**: `conda env create -n rMAP-1.0 --file rMAP-1.0-macOs-installer.yml`
