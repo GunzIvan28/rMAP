@@ -8,7 +8,7 @@ dependencies:
   - fastqc=0.11.9
   - multiqc=1.9
   - snippy=4.3.6
-  - snpeff=4.5covid19
+  - snpeff=5.0
   - ncbi-amrfinderplus=3.8.4
   - prokka=1.14.6
   - prodigal=2.6.3
