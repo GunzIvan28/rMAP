@@ -521,9 +521,9 @@ if [ "$VARCALL" -ne "0" ]; then
         #########---------------- Multiple sample annotations -----------------------########
         start=$SECONDS
         echo -e $Blue"\nrMAP is will now perform Annotation of Variants..."$Off | tee -a $OUTPUT/rMAP.log
-        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-4.5covid19-1/snpEff.jar
-        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-4.5covid19-1/*
-        SNPEFF="$HOME/miniconda3/envs/rMAP-1.0/share/snpeff-4.5covid19-1"
+        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1/snpEff.jar
+        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1/*
+        SNPEFF="$HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1"
         TEMP="$OUTPUT/references"
         for sample in $(cat $OUTPUT/list.txt); do
             mkdir -p $OUTPUT/variant_calling/snps/${sample}/references/{genomes,ref}
