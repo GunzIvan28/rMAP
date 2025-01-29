@@ -32,27 +32,28 @@ The rMAP pipeline toolbox is able to perform:
 
 ## ⚙️ Installation
 
-Install [Miniconda](https://conda.io/miniconda.html) by running the following commands:  
-**For Linux Users:** `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh`  
-`bash Miniconda3-latest-Linux-x86_64.sh`
+An ultra-fast compilation of the pipeline has been developed using [Mamba](https://github.com/conda-forge/miniforge) from Miniforge. Install [Mamba](https://github.com/conda-forge/miniforge) by running the following commands: 
 
-**For MacOS Users:** `wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh`  
-`bash Miniconda3-latest-MacOSX-x86_64.sh`
+**For Linux Users:** `cd && wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh`
 
-`export PATH=~/miniconda3/bin:$PATH` and source using `source ~/.bashrc`  
-`git clone https://github.com/GunzIvan28/rMAP.git`  
-`cd rMAP`  
-`conda update -n base -y -c defaults conda`
+`bash Miniforge3-Linux-x86_64.sh`
+
+**For MacOS Users:** `cd && wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh`
+`bash Miniforge3-MacOSX-x86_64.sh`
+`export PATH="$CONDA_PREFIX":$PATH` and source using `source ~/.bashrc`
+
+Clone the main repository to get started:
+`git clone https://github.com/GunzIvan28/rMAP.git`
+`cd rMAP`
+`mamba update -n base -y -c defaults conda`
 
 Select the appropriate installer for your computer (either `rMAP-1.0-Linux-installer.yml` or `rMAP-1.0-macOs-installer.yml`)
 
-**For Linux Users**: `conda env create -n rMAP-1.0 --file rMAP-1.0-Linux-installer.yml`  
-**For MacOS Users**: `conda env create -n rMAP-1.0 --file rMAP-1.0-macOs-installer.yml`
+**For Linux Users**: `mamba env create -n rMAP-1.0 -y --file rMAP-1.0-Linux-installer.yml`  
+**For MacOS Users**: `mamba env create -n rMAP-1.0 -y --file rMAP-1.0-macOs-installer.yml`
 
-`conda activate rMAP-1.0`  
-`bash setup.sh`  
-`cd && bash clean.sh`  
-`rm -rf clean.sh`  
+`mamba activate rMAP-1.0`  
+`bash setup.sh`
 `rMAP -h`
 
 ```bash
@@ -206,26 +207,26 @@ WHERE:
   - A successful run should generate a HTML report similar to the one in this [link](https://gunzivan28.github.io/rMAP/). Submit any queries or bugs to the [Issue Tracker](https://github.com/GunzIvan28/rMAP/issues) platform and the developers will see to it that it is rectified.
 
 ### 🙏 Acknowledgements
+
 rMAP was inspired and adapted from the TORMES pipeline, developed by Quijada et al. (2019) and reachable at https://github.com/nmquijada/tormes. The reporting format for rMAP was mainly adapted and modified from the Tormes pipeline.  Other alternative tools similar to rMAP that you could consider depending on the type analysis to be computed:
 
-__[AQUAMIS](https://gitlab.com/bfr_bioinformatics/AQUAMIS)__  
+**[AQUAMIS](https://gitlab.com/bfr_bioinformatics/AQUAMIS)**
 Deneke C, Brendebach H, Uelze L, Borowiak M, Malorny B, Tausch SH. *Species-Specific Quality Control, Assembly and Contamination Detection in Microbial Isolate Sequences with AQUAMIS.* __Genes__. 2021;12. doi:10.3390/genes12050644
 
-__[ASA³P](https://github.com/oschwengers/asap)__  
+**[ASA³P](https://github.com/oschwengers/asap)**
 Schwengers O, Hoek A, Fritzenwanker M, Falgenhauer L, Hain T, Chakraborty T, Goesmann A. *ASA³P: An automatic and scalable pipeline for the assembly, annotation and higher-level analysis of closely related bacterial isolates.* __PLoS Comput Biol__ 2020;16:e1007134. https://doi.org/10.1371/journal.pcbi.1007134.
 
-__[MicroPIPE](https://github.com/BeatsonLab-MicrobialGenomics/micropipe)__  
-Murigneux V, Roberts LW, Forde BM, Phan M-D, Nhu NTK, Irwin AD, Harris PNA, Paterson DL, Schembri MA, Whiley DM, Beatson SA *MicroPIPE: validating an end-to-end workflow for high-quality complete bacterial genome construction.* __BMC Genomics__, 22(1), 474. (2021) https://doi.org/10.1186/s12864-021-07767-z
+**[MicroPIPE](https://github.com/BeatsonLab-MicrobialGenomics/micropipe)**
+Murigneux V, Roberts LW, Forde BM, Phan M-D, Nhu NTK, Irwin AD, Harris PNA, Paterson DL, Schembri MA, Whiley DM, Beatson SA *MicroPIPE: validating an end-to-end workflow for high-quality complete bacterial genome construction.**l**, 22(1), 474. (2021) https://doi.org/10.1186/s12864-021-07767-z
 
-__[Nullarbor](https://github.com/tseemann/nullarbor)__  
+**[Nullarbor](https://github.com/tseemann/nullarbor)** 
 Seemann T, Goncalves da Silva A, Bulach DM, Schultz MB, Kwong JC, Howden BP. *Nullarbor* __Github__ https://github.com/tseemann/nullarbor 
 
-__[ProkEvo](https://github.com/npavlovikj/ProkEvo)__  
+**[ProkEvo](https://github.com/npavlovikj/ProkEvo)**
 Pavlovikj N, Gomes-Neto JC, Deogun JS, Benson AK *ProkEvo: an automated, reproducible, and scalable framework for high-throughput bacterial population genomics analyses.* __PeerJ__, e11376 (2021) https://doi.org/10.7717/peerj.11376
 
-__[Public Health Bacterial Genomics](https://github.com/theiagen/public_health_bacterial_genomics)__  
+**[Public Health Bacterial Genomics](https://github.com/theiagen/public_health_bacterial_genomics)** 
 Libuit K, Ambrosio F, Kapsak C *Public Health Bacterial Genomics* __GitHub__ https://github.com/theiagen/public_health_bacterial_genomics
-
 
 ### 🔌 Third Party Plugins
 

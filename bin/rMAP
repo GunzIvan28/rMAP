@@ -69,11 +69,11 @@ logo() {
                                                                                              )                                          (
 
 EOF
-    echo -e ${Off}
+    echo -e "${Off}"
 }
 
 usage() {
-    echo -e ${Cyan}
+    echo -e "${Cyan}"
     cat <<EOF
 This is rMAP $VERSION
 Developed and maintained by Ivan Sserwadda & Gerald Mboowa
@@ -127,7 +127,7 @@ OTHER OPTIONS:
                      
 For further explanation please visit: https://github.com/GunzIvan28/rMAP
 EOF
-    echo -e ${Off}
+    echo -e "${Off}"
 }
 
 if [ $# == 0 ]; then
@@ -160,7 +160,7 @@ while [[ $# -gt 0 ]]; do
         ;;
     -a | --assembly)
         if [[ "$2" ]]; then
-            if [ $2 == 'shovill' ] || [ $2 == 'megahit' ]; then
+            if [ "$2" == 'shovill' ] || [ "$2" == 'megahit' ]; then
                 ASSEMBLY=$2
                 shift 2
             fi
@@ -253,60 +253,61 @@ cd
 if [ $CONFIG -ne "0" ]; then
     CONFIG=1
     start=$SECONDS
-    echo -e $Green"rMAP will now configure the system: Please be patient...\n"
-    echo -e $Green"rMAP will now install missing R-packages...."$Off
+    echo -e "$Green""rMAP will now configure the system: Please be patient...\n"
+    echo -e "$Green""rMAP will now install missing R-packages..."."$O"ff
     #### R-package istallations ########
-    conda install -y -c conda-forge r-biocmanager
+    mamba install -y -c conda-forge r-biocmanager
     Rscript -e 'library(BiocManager);BiocManager::install(c("ggtree", "rmarkdown"))'
     Rscript -e 'library(BiocManager);BiocManager::install(c("data.table", "formattable"))'
-    echo -e $Green"R-packages installed successfully....\n"$Off
+    echo -e "$Green""R-packages installed successfully....\n""$Off"
     #### Extra-conda package installations
-    conda install -y -c conda-forge beautifulsoup4
-    conda install -y -c conda-forge r-gridextra
-    conda install -y -c conda-forge r-kableextra
-    conda install -y -c conda-forge r-plotly
-    conda install -y -c conda-forge r-devtools
-    conda install -y -c conda-forge r-reshape2
-    conda install -y -c conda-forge r-tidyverse
-    echo -e $Green"Extra-conda packages installed successfully....\n"$Off
-    echo -e $Green"ALL REQUIRED PACKAGES HAVE BEEN INSTALLED, enjoy rMAP!!....\n"$Off
-    #amrfinder --update
-    echo -e $Red"REMEMBER: '--config' is only run once....\n"$Off
+    mamba install -y -c conda-forge beautifulsoup4
+    mamba install -y -c conda-forge r-gridextra
+    mamba install -y -c conda-forge r-kableextra
+    mamba install -y -c conda-forge r-plotly
+    mamba install -y -c conda-forge r-devtools
+    mamba install -y -c conda-forge r-reshape2
+    mamba install -y -c conda-forge r-tidyverse
+    echo -e "$Green""Extra-conda packages installed successfully....\"n""$Off"
+    echo -e "$Green""ALL REQUIRED PACKAGES HAVE BEEN INSTALLED, enjoy rMAP!!....\n""$Off"
+    echo -e "$Red""REMEMBER: '--config' is only run once....\n""$Off"
     end=$SECONDS
-    echo -e $Green"\nrMAP Set-up Lasted Approximately: $((end - start)) seconds."$Off
+    echo -e "$Green""\nrMAP Set-up Lasted Approximately: $((end - start)) seconds.""$Off"
     exit
 else
-    echo -e $Red"Please select '--config' option for full functionality\n"$Off
+    echo -e "$Red""Please select '--config' option for full functionality\n""$Off"
 fi
+
 
 ######-------------------------------- Download SRA Sequences-------------------------------------------------------###
 start=$SECONDS
 if [ "$DOWNLOAD" -ne "0" ]; then
     DOWNLOAD=1
     if [ -s "$HOME/list.txt" ]; then
-        echo -e $Blue"Sample list was found and will be used to download sequences from SRA"$Off
-        mkdir -p $HOME/SRA_READS
+        echo -e "$Blue""Sample list was found and will be used to download sequences from SRA""$Off"
+        mkdir -p "$HOME"/SRA_READS
         for sample in $(cat $HOME/list.txt); do
-            echo -e $Blue"Downloading Sample: $sample$Off using $Green$(fastq-dump --version)"$Off
-            fastq-dump --split-files --gzip $sample -O $HOME/SRA_READS
+            echo -e "$Blue""Downloading Sample: $sample$Off using $Green$(fastq-dump --version)""$Off"
+            fastq-dump --split-files --gzip "$sample" -O "$HOME"/SRA_READS
         done
         end=$SECONDS
-        echo -e $Green"Your NCBI-SRA download lasted Approximately: $((end - start)) seconds and your sequences were saved at $HOME/SRA_READS!!!"$Off
+        echo -e "$Green""Your NCBI-SRA download lasted Approximately: $((end - start)) seconds and your sequences were saved at $HOME/SRA_READS!!!""$Off"
         exit
     else
-        echo -e $Red"ID-list was not found!! Create a 'list.txt' with sample IDs and save it at $HOME"$Off
+        echo -e "$Red""ID-list was not found!! Create a 'list.txt' with sample IDs and save it at $HOME""$Off"
         exit 1
     fi
 fi
 
 ############# ------------------ CREATING WORKING DIRECTORIES ----------------------------------##########################
-mkdir -p -m 777 $OUTPUT/{annotation,variant_calling,quality_reports,assembly,mlsts,resistance_genes,virulence_factors,phylogeny,reports,trimmed_reads}
-echo -e "rMAP pipeline intialized.." >$OUTPUT/rMAP.log
-date +"%Y-%m-%d %H:%M" >>$OUTPUT/rMAP.log
-echo "" >>$OUTPUT/rMAP.log
+# shellcheck disable=SC2174
+mkdir -p -m 777 "$OUTPUT"/{annotation,variant_calling,quality_reports,assembly,mlsts,resistance_genes,virulence_factors,phylogeny,reports,trimmed_reads}
+echo -e "rMAP pipeline intialized.." >"$OUTPUT"/rMAP.log
+date +"%Y-%m-%d %H:%M" >>"$OUTPUT"/rMAP.log
+echo "" >>"$OUTPUT"/rMAP.log
 
-echo -e $Green
-cat <<EOF >>$OUTPUT/rMAP.log
+echo -e "$Green"
+cat <<EOF >>"$OUTPUT"/rMAP.log
 
 You are now running rMAP version $VERSION
 Pipeline parameters selected by user:
@@ -316,21 +317,23 @@ Selected options:
 	- Output directory: $OUTPUT
 	- Number of threads to use: $CPUS
 EOF
-echo -e $Off
+echo -e "$Off"
 
 echo -e "Input reads directory: $INPUT"
 echo -e "Selected output directory: $OUTPUT"
 echo -e "Number of cores selected: $CPUS"
 ########------ Extracting list of downloaded samples to be used for downstream analysis--------------- ###
-if $(ls $INPUT/*fastq 2>/dev/null); then
-    echo -e $Red"Some reads are not gzipped... rMAP will zip them to optimize the pipeline"$Off
-    parallel -j $CPUS --gnu gzip ::: $INPUT/*fastq
+# shellcheck disable=SC2091
+if $(ls "$INPUT"/*fastq 2>/dev/null); then
+    echo -e "$Red""Some reads are not gzipped... rMAP will zip them to optimize the pipeline""$Off"
+    parallel -j "$CPUS" --gnu gzip ::: "$INPUT"/*fastq
 else
-    echo -e $Green"All reads are zipped, rMAP sequences initialized!!!"$Off
+    echo -e "$Green""All reads are zipped, rMAP sequences initialized!!!""$Off"
 fi
-ls $INPUT >$OUTPUT/temp.txt
-cat $OUTPUT/temp.txt | cut -d_ -f1 | uniq >$OUTPUT/list.txt
-rm -rf $OUTPUT/temp.txt
+ls "$INPUT" >"$OUTPUT"/temp.txt
+# shellcheck disable=SC2002
+cat "$OUTPUT"/temp.txt | cut -d_ -f1 | uniq >"$OUTPUT"/list.txt
+rm -rf "$OUTPUT"/temp.txt
 
 ############################# QUALITY CONTROL #####################################
 
@@ -338,67 +341,65 @@ rm -rf $OUTPUT/temp.txt
 start=$SECONDS
 if [ "$QC" -ne "0" ]; then
     QC=1
-    mkdir -p $OUTPUT/quality_reports
-    echo -e $Blue"QC of the samples will start:\n"$Off
-    echo -e $Blue"Now running: $(fastqc --version)"$Off
+    mkdir -p "$OUTPUT"/quality_reports
+    echo -e "$Blue""QC of the samples will start:\n""$Off"
+    echo -e "$Blue""Now running: $(fastqc --version)""$Off"
     for sample in $(cat $OUTPUT/list.txt); do
         R1=${sample}_1.fastq.gz
         R2=${sample}_2.fastq.gz
-        echo -e $Red"\nProcessing sample: "$sample$Off
-        fastqc $INPUT/$R1 $INPUT/$R2 --outdir $OUTPUT/quality_reports
+        echo -e "$Red""\nProcessing sample: ""$sample""$Off"
+        fastqc "$INPUT"/"$R1" "$INPUT"/"$R2" --outdir "$OUTPUT"/quality_reports
     done
-    cd $OUTPUT/quality_reports
-    echo -e $Blue"\nNow running: $(multiqc --version)"
+    cd "$OUTPUT"/quality_reports || exit
+    echo -e "$Blue""\nNow running: $(multiqc --version)"
     multiqc . --force --outdir .
     rm -rf *.zip
     end=$SECONDS
-    echo -e $Green"\nYour QC Run Took Approximately: $((end - start)) seconds."$Off
+    echo -e "$Green""\nYour QC Run Took Approximately: $((end - start)) seconds.""$Off"
 else
-    echo -e $Red"'-f/--quality' option disabled: rMAP will skip generation of quality reports"$Off
+    echo -e "$Red""'-f/--quality' option disabled: rMAP will skip generation of quality reports""$Off"
 
 fi
 cd
 ################################ QUALITY TRIMMING ####################################
-
 CPUS=8
 if [ -e "$ADAPTERS" ]; then
     if [ "$TRIM" -ne "0" ]; then
         TRIM=1
         start=$SECONDS
-        echo -e $Blue"$ADAPTERS present\n"$Off
-        echo -e $Blue"\nrMAP is now Trimming the reads for quality:$QUALITY, minimum length:$MINLEN\n"$Off
-        mkdir -p $OUTPUT/trimmed_reads
+        echo -e "$Blue""$ADAPTERS present\n""$Off"
+        echo -e "$Blue""\nrMAP is now Trimming the reads for quality:$QUALITY, minimum length:$MINLEN\n""$Off"
+        mkdir -p "$OUTPUT"/trimmed_reads
         for sample in $(cat $OUTPUT/list.txt); do
             A=${sample}_1.fastq.gz
             B=${sample}_2.fastq.gz
-            echo -e $Red"\nProcessing sample: "$sample$Off
-            trimmomatic PE -threads $CPUS -phred33 $INPUT/$A $INPUT/$B $OUTPUT/trimmed_reads/$sample.clean_1.fastq.gz /dev/null $OUTPUT/trimmed_reads/$sample.clean_2.fastq.gz /dev/null ILLUMINACLIP:$ADAPTERS:1:30:11 LEADING:${QUALITY} TRAILING:${QUALITY} MINLEN:${MINLEN}
+            echo -e "$Red""\nProcessing sample: ""$sample""$Off"
+            trimmomatic PE -threads $CPUS -phred33 "$INPUT"/"$A" "$INPUT"/"$B" "$OUTPUT"/trimmed_reads/"$sample".clean_1.fastq.gz /dev/null "$OUTPUT"/trimmed_reads/"$sample".clean_2.fastq.gz /dev/null ILLUMINACLIP:"$ADAPTERS":1:30:11 LEADING:${QUALITY} TRAILING:${QUALITY} MINLEN:${MINLEN}
         done
         end=$SECONDS
-        echo -e $Green"\nYour Trimming Run Took Approximately: $((end - start)) seconds."$Off
+        echo -e "$Green""\nYour Trimming Run Took Approximately: $((end - start)) seconds.""$Off"
     else
-        echo -e $Red"'-q/--trim' option disabled: rMAP cannot skip trimming process... This is required for downstream analysis!! Please select '-q' or '--trim'...rMAP will now exit..."$Off
+        echo -e "$Red""'-q/--trim' option disabled: rMAP cannot skip trimming process... This is required for downstream analysis!! Please select '-q' or '--trim'...rMAP will now exit...""$Off"
         exit 1
     fi
 fi
 ################-------------Quality filtering stats---------------------###############
 export LC_ALL=C
 start=$SECONDS
-echo -e $Blue"\nrMAP is now Generating Trimming Stats..."$Off
+echo -e "$Blue""\nrMAP is now Generating Trimming Stats...""$Off"
 for x in $(cat $OUTPUT/list.txt); do
-    echo -e $Blue"Processing sample: $x"$Off
-    cat $OUTPUT/trimmed_reads/$x\.clean_*.fastq.gz | awk -b 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("total\tavg\n%d\t%f\n",n,m,sq/n-m*m);}' >$OUTPUT/trimmed_reads/$x\.ok.stats.txt
-    sed -i 's/\..*//' $OUTPUT/trimmed_reads/$x\.ok.stats.txt
+    echo -e "$Blue""Processing sample: $x""$Off"
+    cat "$OUTPUT"/trimmed_reads/"$x"\.clean_*.fastq.gz | awk -b 'BEGIN { t=0.0;sq=0.0; n=0;} ;NR%4==2 {n++;L=length($0);t+=L;sq+=L*L;}END{m=t/n;printf("total\tavg\n%d\t%f\n",n,m,sq/n-m*m);}' >"$OUTPUT"/trimmed_reads/"$x"\.ok.stats.txt
+    sed -i 's/\..*//' "$OUTPUT"/trimmed_reads/"$x"\.ok.stats.txt
     #######cp -rf $OUTPUT/trimmed_reads/*.txt $OUTPUT/reports
 done
 end=$SECONDS
-echo -e $Green"Your Quality Stats Run Took Approximately: $((end - start)) seconds."$Off
-
+echo -e "$Green""Your Quality Stats Run Took Approximately: $((end - start)) seconds.""$Off"
 ######################### ----------------------- GENOME ASSEMBLY  ------------------------------- #############################################
 
 ############################## SHOVILL ASSEMBLER  #####################################
 start=$SECONDS
-echo -e $Blue"\nrMAP is will now perform De-novo Genome Assembly using $ASSEMBLY..."$Off
+echo -e "$Blue""\nrMAP is will now perform De-novo Genome Assembly using $ASSEMBLY...""$Off"
 if [ "$ASSEMBLY" == "shovill" ]; then
 
     for sample in $(cat $OUTPUT/list.txt); do
@@ -406,11 +407,11 @@ if [ "$ASSEMBLY" == "shovill" ]; then
         A=${sample}.clean_1.fastq.gz
         B=${sample}.clean_2.fastq.gz
 
-        echo -e $Blue"Processing sample: $sample"$Off
-        shovill --R1 $OUTPUT/trimmed_reads/$A --R2 $OUTPUT/trimmed_reads/$B --cpus $CPUS --gsize 3.4M --ram 8 --force --outdir $OUTPUT/assembly/${sample}
-        mv $OUTPUT/assembly/${sample}/contigs.fa $OUTPUT/assembly/${sample}/${sample}.fa
-        assembly-stats -t $OUTPUT/assembly/${sample}/${sample}.fa >$OUTPUT/assembly/${sample}/${sample}-assembly-stats.tab
-        assembly-stats -t $OUTPUT/assembly/${sample}/${sample}.fa >$OUTPUT/assembly/${sample}/${sample}-assembly-stats.txt
+        echo -e "$Blue""Processing sample: $sample""$Off"
+        shovill --R1 "$OUTPUT"/trimmed_reads/"$A" --R2 "$OUTPUT"/trimmed_reads/"$B" --cpus $CPUS --gsize 3.4M --ram 8 --force --outdir "$OUTPUT"/assembly/"${sample}"
+        mv "$OUTPUT"/assembly/"${sample}"/contigs.fa "$OUTPUT"/assembly/"${sample}"/"${sample}".fa
+        assembly-stats -t "$OUTPUT"/assembly/"${sample}"/"${sample}".fa >"$OUTPUT"/assembly/"${sample}"/"${sample}"-assembly-stats.tab
+        assembly-stats -t "$OUTPUT"/assembly/"${sample}"/"${sample}".fa >"$OUTPUT"/assembly/"${sample}"/"${sample}"-assembly-stats.txt
         ##########cp -rf $OUTPUT/assembly/${sample}/*.tab $OUTPUT/assembly/${sample}/*.txt $OUTPUT/reports
     done
 
@@ -419,89 +420,89 @@ else
 
         A=${sample}.clean_1.fastq.gz
         B=${sample}.clean_2.fastq.gz
-        echo -e $Blue"Processing sample: $sample"$Off
-        megahit -1 $OUTPUT/trimmed_reads/$A -2 $OUTPUT/trimmed_reads/$B -o $OUTPUT/assembly/${sample} -t $CPUS
-        mv $OUTPUT/assembly/${sample}/*.fa $OUTPUT/assembly/${sample}/${sample}.fa
-        assembly-stats -t $OUTPUT/assembly/${sample}/${sample}.fa >$OUTPUT/assembly/${sample}/${sample}-assembly-stats.tab
-        assembly-stats -t $OUTPUT/assembly/${sample}/${sample}.fa >$OUTPUT/assembly/${sample}/${sample}-assembly-stats.txt
+        echo -e "$Blue""Processing sample: $sample""$Off"
+        megahit -1 "$OUTPUT"/trimmed_reads/"$A" -2 "$OUTPUT"/trimmed_reads/"$B" -o "$OUTPUT"/assembly/"${sample}" -t $CPUS
+        mv "$OUTPUT"/assembly/"${sample}"/*.fa "$OUTPUT"/assembly/"${sample}"/"${sample}".fa
+        assembly-stats -t "$OUTPUT"/assembly/"${sample}"/"${sample}".fa >"$OUTPUT"/assembly/"${sample}"/"${sample}"-assembly-stats.tab
+        assembly-stats -t "$OUTPUT"/assembly/"${sample}"/"${sample}".fa >"$OUTPUT"/assembly/"${sample}"/"${sample}"-assembly-stats.txt
         ###########cp -rf $OUTPUT/assembly/${sample}/*.tab $OUTPUT/assembly/${sample}/*.txt $OUTPUT/reports
     done
 fi
 
 end=$SECONDS
-echo -e $Green"Your Assembly Run Took Approximately: $((end - start)) seconds."$Off
+echo -e "$Green""Your Assembly Run Took Approximately: $((end - start)) seconds.""$Off"
 
 ##################### ANNOTATION ##################################
 start=$SECONDS
-echo -e $Blue"\nrMAP is will now Annotate the Assembled Genomes..."$Off
+echo -e "$Blue""\nrMAP is will now Annotate the Assembled Genomes...""$Off"
 prokka --setupdb
 for sample in $(cat $OUTPUT/list.txt); do
-    echo -e $Blue"Processing sample: $sample"$Off
-    mkdir -p $OUTPUT/annotation/$sample
-    prokka --outdir $OUTPUT/annotation/$sample --prefix $sample --cpus $CPUS $OUTPUT/assembly/${sample}/${sample}.fa --locustag $sample --force
-done | tee -a $OUTPUT/rMAP.log
+    echo -e "$Blue""Processing sample: $sample""$Off"
+    mkdir -p "$OUTPUT"/annotation/$sample
+    prokka --outdir "$OUTPUT"/annotation/"$sample" --prefix "$sample" --cpus $CPUS "$OUTPUT"/assembly/"${sample}"/"${sample}".fa --locustag "$sample" --force
+done | tee -a "$OUTPUT"/rMAP.log
 end=$SECONDS
-echo -e $Green"Your Genome Annotation Run Took Approximately: $((end - start)) seconds."$Off
+echo -e "$Green""Your Genome Annotation Run Took Approximately: $((end - start)) seconds.""$Off"
 
 ######    Indexing references  #####################
 ######### In absence of valid .gbk, biopython.convert doesn't execute interractive run and empty gff3 is created
 cd
 start=$SECONDS
-mkdir -p $OUTPUT/references
+mkdir -p "$OUTPUT"/references
 TEMP="$OUTPUT/references"
 REF="$TEMP/*.fa"
 IND="$TEMP/*.fai"
 tmp="$OUTPUT/temp"
-mkdir -p $OUTPUT/temp
-cp -rf $REFERENCE $TEMP
+mkdir -p "$OUTPUT"/temp
+cp -rf "$REFERENCE" "$TEMP"
 
 if [ "$VARCALL" -ne "0" ]; then
     VARCALL=1
     if [[ $REFERENCE =~ \.gbk$ ]]; then
-        echo -e $Blue"\nrMAP is will now perform Variant Calling..."$Off | tee -a $OUTPUT/rMAP.log
-        echo -e $Red".gbk found !!! Annotation Mode Enabled...Preparing Annotation files..."$Off | tee -a $OUTPUT/rMAP.log
-        echo "$TEMP/$REFERENCE" | awk -F"." '{print $1}' | cut -d/ -f3 >$TEMP/temp1.txt
-        x="$(cat $TEMP/temp1.txt)"
-        biopython.convert $TEMP/${REFERENCE} genbank -i $TEMP/$x.fa fasta
-        biopython.convert $TEMP/${REFERENCE} genbank -i $TEMP/$x.gff3 gff
+        echo -e "$Blue""\nrMAP is will now perform Variant Calling...""$Off" | tee -a "$OUTPUT"/rMAP.log
+        echo -e "$Red"".gbk found !!! Annotation Mode Enabled...Preparing Annotation files...""$Off" | tee -a "$OUTPUT"/rMAP.log
+        echo "$TEMP/$REFERENCE" | awk -F"." '{print $1}' | cut -d/ -f3 >"$TEMP"/temp1.txt
+        x="$(cat "$TEMP"/temp1.txt)"
+        biopython.convert "$TEMP"/"${REFERENCE}" genbank -i "$TEMP"/"$x".fa fasta
+        biopython.convert "$TEMP"/"${REFERENCE}" genbank -i "$TEMP"/"$x".gff3 gff
         rm -rf $TEMP/${REFERENCE}
-        bwa index $TEMP/*.fa
-        samtools faidx $TEMP/*.fa
+        bwa index "$TEMP"/*.fa
+        samtools faidx "$TEMP"/*.fa
         # ####################### Alignment for .gbk file #############################
         for sample in $(cat $OUTPUT/list.txt); do
             A=${sample}.clean_1.fastq.gz
             B=${sample}.clean_2.fastq.gz
-            echo -e $Blue"Processing sample: $sample"$Off
-            bwa mem -Y -M -R "@RG\tID:${sample}\tSM:${sample}" -t $CPUS $REF $OUTPUT/trimmed_reads/$A $OUTPUT/trimmed_reads/$B |
-                samclip --max 10 --ref $IND | # filter out soft and hard clipped alignments from sam file
-                samtools sort -n -l 0 -T $temp/${sample} --threads 8 -m 1000M |
+            echo -e "$Blue""Processing sample: $sample""$Off"
+            bwa mem -Y -M -R "@RG\tID:${sample}\tSM:${sample}" -t $CPUS "$REF" "$OUTPUT"/trimmed_reads/"$A" "$OUTPUT"/trimmed_reads/"$B" |
+                samclip --max 10 --ref "$IND" | # filter out soft and hard clipped alignments from sam file
+                samtools sort -n -l 0 -T "$temp"/"${sample}" --threads 8 -m 1000M |
                 samtools fixmate -m - - |
-                samtools sort -l 0 -T $temp/${sample} --threads 8 -m 1000M |
-                samtools markdup -T $temp/${sample} -r -s - - >$OUTPUT/variant_calling/${sample}.mrkdup.bam
-            samtools index $OUTPUT/variant_calling/${sample}.mrkdup.bam | tee -a $OUTPUT/rMAP.log
-        done | tee -a $OUTPUT/rMAP.log
+                samtools sort -l 0 -T "$temp"/"${sample}" --threads 8 -m 1000M |
+                samtools markdup -T "$temp"/"${sample}" -r -s - - >"$OUTPUT"/variant_calling/"${sample}".mrkdup.bam
+            samtools index "$OUTPUT"/variant_calling/"${sample}".mrkdup.bam | tee -a "$OUTPUT"/rMAP.log
+        done | tee -a "$OUTPUT"/rMAP.log
         end=$SECONDS
-        echo -e $Green"Your Alignment Run Took Approximately: $((end - start)) seconds."$Off | tee -a $OUTPUT/rMAP.log
+        echo -e "$Green""Your Alignment Run Took Approximately: $((end - start)) seconds.""$Off" | tee -a "$OUTPUT"/rMAP.log
         ###################### Variant calling #####################################
         ############----------------- Individual sample variant calling ---------------############
         start=$SECONDS
-        echo -e $Blue"\nrMAP is will now perform Variant Calling ..."$Off
+        echo -e "$Blue""\nrMAP is will now perform Variant Calling ...""$Off"
         TEMP="$OUTPUT/references"
         REF="$TEMP/*.fa"
-        mkdir -p $OUTPUT/variant_calling/snps
+        mkdir -p "$OUTPUT"/variant_calling/snps
         for sample in $(cat $OUTPUT/list.txt); do
             x=${sample}.mrkdup.bam
 
-            echo -e $Blue"Processing sample: $sample"$Off
-            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f $REF -b $OUTPUT/variant_calling/$x -v $OUTPUT/variant_calling/${sample}.raw.vcf
-            bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' $OUTPUT/variant_calling/${sample}.raw.vcf | vt normalize -r $REF - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >$OUTPUT/variant_calling/${sample}.filt.vcf
+            echo -e "$Blue""Processing sample: $sample""$Off"
+            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f "$REF" -b "$OUTPUT"/variant_calling/"$x" -v "$OUTPUT"/variant_calling/"${sample}".raw.vcf
+            bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' "$OUTPUT"/variant_calling/"${sample}".raw.vcf | vt normalize -r "$REF" - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >"$OUTPUT"/variant_calling/"${sample}".filt.vcf
 
-        done | tee -a $OUTPUT/rMAP.log
+        done | tee -a "$OUTPUT"/rMAP.log
         end=$SECONDS
-        echo -e $Green"Your Variant Call Run Took Approximately: $((end - start)) seconds."$Off
+        echo -e "$Green""Your Variant Call Run Took Approximately: $((end - start)) seconds.""$Off"
 
         ########--------------- Multiple sample/all-sample-single-file variant calling -------------------###########
-        echo -e $Blue"\nrMAP is will create for you a combined VCF file with all sample-IDs ..."$Off
+        echo -e "$Blue""\nrMAP is will create for you a combined VCF file with all sample-IDs ...""$Off"
         start=$SECONDS
         x=""
         TEMP="$OUTPUT/references"
@@ -510,127 +511,134 @@ if [ "$VARCALL" -ne "0" ]; then
         for sample in $(cat $OUTPUT/list.txt); do
             x="$x$OUTPUT/variant_calling/${sample}.mrkdup.bam "
 
-            echo -e $Blue"Processing sample: $sample"$Off
-            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f $REF -b $x -v $OUTPUT/variant_calling/combined.raw.vcf
+            echo -e "$Blue""Processing sample: $sample""$Off"
+            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f "$REF" -b "$x" -v "$OUTPUT"/variant_calling/combined.raw.vcf
 
             end=$SECONDS
-            echo -e $Green"Your Variant Call Run Took Approximately: $((end - start)) seconds."$Off
-        done | tee -a $OUTPUT/rMAP.log
-        bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' $OUTPUT/variant_calling/combined.raw.vcf | vt normalize -r $REF - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >$OUTPUT/variant_calling/combined.filt.vcf
+            echo -e "$Green""Your Variant Call Run Took Approximately: $((end - start)) seconds.""$Off"
+        done | tee -a "$OUTPUT"/rMAP.log
+        bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' "$OUTPUT"/variant_calling/combined.raw.vcf | vt normalize -r "$REF" - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >"$OUTPUT"/variant_calling/combined.filt.vcf
         ################# ----- Annotations using SnpEff--------- ###########
         #########---------------- Multiple sample annotations -----------------------########
         start=$SECONDS
-        echo -e $Blue"\nrMAP is will now perform Annotation of Variants..."$Off | tee -a $OUTPUT/rMAP.log
-        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1/snpEff.jar
-        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1/*
-        SNPEFF="$HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1"
+        echo -e "$Blue""\nrMAP is will now perform Annotation of Variants...""$Off" | tee -a "$OUTPUT"/rMAP.log
+        chmod 777 "$CONDA_PREFIX"/share/snpeff-5.0-1/snpEff.jar
+        chmod 777 "$CONDA_PREFIX"/share/snpeff-5.0-1/*
+        SNPEFF="$CONDA_PREFIX/share/snpeff-5.0-1"
         TEMP="$OUTPUT/references"
         for sample in $(cat $OUTPUT/list.txt); do
-            mkdir -p $OUTPUT/variant_calling/snps/${sample}/references/{genomes,ref}
+            mkdir -p "$OUTPUT"/variant_calling/snps/"${sample}"/references/{genomes,ref}
             x=${sample}.filt.vcf
-            y="$(cat $TEMP/temp1.txt)"
-            echo -e $Blue"Processing sample: "$sample$Off
+            y="$(cat "$TEMP"/temp1.txt)"
+            echo -e "$Blue""Processing sample: ""$sample""$Off"
 
             ####------------------- Creating a custom snpEff database to annotate vcfs-----------------#
-            cp -f $OUTPUT/variant_calling/$x $OUTPUT/variant_calling/snps/${sample}/references/
-            chmod 777 $OUTPUT/variant_calling/snps/${sample}/references/
-            cat $SNPEFF/snpEff.config | grep '\<codon.' | grep -v "#" | grep -v '\<hg*' | grep -v '\<GRC*' | grep -v '\<test*' >$OUTPUT/variant_calling/snps/${sample}/references/snpEff.config
-            echo -e ref.genome : rMAP-1.0 >>$OUTPUT/variant_calling/snps/${sample}/references/snpEff.config
-            echo -e '\t' ref.chromosome : $(grep -v "##" $OUTPUT/variant_calling/$x | grep -v "#" | head -n1 | cut -f1) >>$OUTPUT/variant_calling/snps/${sample}/references/snpEff.config
-            echo -e '\t' ref.$(grep -v "##" $OUTPUT/variant_calling/$x | grep -v "#" | head -n1 | cut -f1).codonTable : Bacterial_and_Plant_Plastid >>$OUTPUT/variant_calling/snps/${sample}/references/snpEff.config
+            cp -f "$OUTPUT"/variant_calling/"$x" "$OUTPUT"/variant_calling/snps/"${sample}"/references/
+            chmod 777 "$OUTPUT"/variant_calling/snps/"${sample}"/references/
+            # shellcheck disable=SC2002
+            cat "$SNPEFF"/snpEff.config | grep '\<codon.' | grep -v "#" | grep -v '\<hg*' | grep -v '\<GRC*' | grep -v '\<test*' >"$OUTPUT"/variant_calling/snps/"${sample}"/references/snpEff.config
+            # shellcheck disable=SC2129
+            echo -e ref.genome : rMAP-1.0 >>"$OUTPUT"/variant_calling/snps/"${sample}"/references/snpEff.config
+            # shellcheck disable=SC2046
+            echo -e '\t' ref.chromosome : $(grep -v "##" "$OUTPUT"/variant_calling/"$x" | grep -v "#" | head -n1 | cut -f1) >>"$OUTPUT"/variant_calling/snps/"${sample}"/references/snpEff.config
+            # shellcheck disable=SC2046
+            echo -e '\t' ref.$(grep -v "##" "$OUTPUT"/variant_calling/"$x" | grep -v "#" | head -n1 | cut -f1).codonTable : Bacterial_and_Plant_Plastid >>"$OUTPUT"/variant_calling/snps/"${sample}"/references/snpEff.config
 
             ###---------- Creating annotation folders as required by snpEff, copying .fasta files and .gff3 into genome & genes respectively and renaming to sequence.fa and genes.gff
-            cp -f $TEMP/$y.fa $OUTPUT/variant_calling/snps/${sample}/references/genomes &&
-                mv $OUTPUT/variant_calling/snps/${sample}/references/genomes/$y.fa $OUTPUT/variant_calling/snps/${sample}/references/genomes/ref.fa
-            cp -f $TEMP/$y.gff3 $OUTPUT/variant_calling/snps/${sample}/references/ref &&
-                mv $OUTPUT/variant_calling/snps/${sample}/references/ref/$y.gff3 $OUTPUT/variant_calling/snps/${sample}/references/ref/genes.gff
-            gzip -c $OUTPUT/variant_calling/snps/${sample}/references/ref/genes.gff >$OUTPUT/variant_calling/snps/${sample}/references/ref/genes.gff.gz
+            cp -f "$TEMP"/"$y".fa "$OUTPUT"/variant_calling/snps/"${sample}"/references/genomes &&
+                mv "$OUTPUT"/variant_calling/snps/"${sample}"/references/genomes/"$y".fa "$OUTPUT"/variant_calling/snps/"${sample}"/references/genomes/ref.fa
+            cp -f "$TEMP"/"$y".gff3 "$OUTPUT"/variant_calling/snps/"${sample}"/references/ref &&
+                mv "$OUTPUT"/variant_calling/snps/"${sample}"/references/ref/"$y".gff3 "$OUTPUT"/variant_calling/snps/"${sample}"/references/ref/genes.gff
+            gzip -c "$OUTPUT"/variant_calling/snps/"${sample}"/references/ref/genes.gff >"$OUTPUT"/variant_calling/snps/"${sample}"/references/ref/genes.gff.gz
 
             ################-----------------------------------Building database---------------------------------------###################################
-            snpEff build -c $OUTPUT/variant_calling/snps/${sample}/references/snpEff.config -dataDir . -gff3 -v ref
+            snpEff build -c "$OUTPUT"/variant_calling/snps/"${sample}"/references/snpEff.config -dataDir . -gff3 -v ref
             ################-----------------------------------NOW ANNOTATION------------------------------------------###################################
-            java -Xmx8g -jar $SNPEFF/snpEff.jar ann -noLog -noStats -no-downstream -no-upstream -no-utr -v -c $OUTPUT/variant_calling/snps/${sample}/references/snpEff.config -dataDir . ref $OUTPUT/variant_calling/snps/${sample}/references/$x >$OUTPUT/variant_calling/snps/${sample}.annot.vcf
-            cp -f $OUTPUT/variant_calling/snps/${sample}.annot.vcf $OUTPUT/variant_calling
+            java -Xmx8g -jar "$SNPEFF"/snpEff.jar ann -noLog -noStats -no-downstream -no-upstream -no-utr -v -c "$OUTPUT"/variant_calling/snps/"${sample}"/references/snpEff.config -dataDir . ref "$OUTPUT"/variant_calling/snps/"${sample}"/references/"$x" >"$OUTPUT"/variant_calling/snps/"${sample}".annot.vcf
+            cp -f "$OUTPUT"/variant_calling/snps/"${sample}".annot.vcf "$OUTPUT"/variant_calling
             # Converting annotated vcfs to TAB format
-            snippy-vcf_to_tab --gff $OUTPUT/variant_calling/snps/${sample}/references/ref/genes.gff --ref $OUTPUT/variant_calling/snps/${sample}/references/genomes/ref.fa --vcf $OUTPUT/variant_calling/${sample}.annot.vcf >$OUTPUT/variant_calling/${sample}.annot.tab
+            snippy-vcf_to_tab --gff "$OUTPUT"/variant_calling/snps/"${sample}"/references/ref/genes.gff --ref "$OUTPUT"/variant_calling/snps/"${sample}"/references/genomes/ref.fa --vcf "$OUTPUT"/variant_calling/"${sample}".annot.vcf >"$OUTPUT"/variant_calling/"${sample}".annot.tab
 
-        done | tee -a $OUTPUT/rMAP.log
+        done | tee -a "$OUTPUT"/rMAP.log
         end=$SECONDS
-        echo -e $Green"Your Variant Annotation Run Took Approximately: $((end - start)) seconds."$Off | tee -a $OUTPUT/rMAP.log
+        echo -e "$Green""Your Variant Annotation Run Took Approximately: $((end - start)) seconds.""$Off" | tee -a "$OUTPUT"/rMAP.log
         ######################------------------Multiple/All-sample Annotation--------------------------##############################
         start=$SECONDS
-        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1/snpEff.jar
-        chmod 777 $HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1/*
-        SNPEFF="$HOME/miniconda3/envs/rMAP-1.0/share/snpeff-5.0-1"
+        chmod 777 "$CONDA_PREFIX"/share/snpeff-5.0-1/snpEff.jar
+        chmod 777 "$CONDA_PREFIX"/share/snpeff-5.0-1/*
+        SNPEFF="$CONDA_PREFIX/share/snpeff-5.0-1"
         TEMP="$OUTPUT/references"
-        y="$(cat $TEMP/temp1.txt)"
-        mkdir -p $OUTPUT/variant_calling/snps/combined-snps/references/{genomes,ref}
-        cp -f $OUTPUT/variant_calling/combined.filt.vcf $OUTPUT/variant_calling/snps/combined-snps/references/
-        chmod 777 $OUTPUT/variant_calling/snps/combined-snps/references/*
+        y="$(cat "$TEMP"/temp1.txt)"
+        mkdir -p "$OUTPUT"/variant_calling/snps/combined-snps/references/{genomes,ref}
+        cp -f "$OUTPUT"/variant_calling/combined.filt.vcf "$OUTPUT"/variant_calling/snps/combined-snps/references/
+        chmod 777 "$OUTPUT"/variant_calling/snps/combined-snps/references/*
 
         #####----------------- Creating a custom snpEff database to annotate vcfs
-        cat $SNPEFF/snpEff.config | grep '\<codon.' | grep -v "#" | grep -v '\<hg*' | grep -v '\<GRC*' | grep -v '\<test*' >$OUTPUT/variant_calling/snps/combined-snps/references/snpEff.config
-        echo -e ref.genome : rMAP-1.0 >>$OUTPUT/variant_calling/snps/combined-snps/references/snpEff.config
-        echo -e '\t' ref.chromosome : $(grep -v "##" $OUTPUT/variant_calling/snps/combined-snps/references/combined.filt.vcf | grep -v "#" | head -n1 | cut -f1) >>$OUTPUT/variant_calling/snps/combined-snps/references/snpEff.config
-
-        echo -e '\t' ref.$(grep -v "##" $OUTPUT/variant_calling/snps/combined-snps/references/combined.filt.vcf | grep -v "#" | head -n1 | cut -f1).codonTable : Bacterial_and_Plant_Plastid >>$OUTPUT/variant_calling/snps/combined-snps/references/snpEff.config
+        # shellcheck disable=SC2002
+        cat "$SNPEFF"/snpEff.config | grep '\<codon.' | grep -v "#" | grep -v '\<hg*' | grep -v '\<GRC*' | grep -v '\<test*' >"$OUTPUT"/variant_calling/snps/combined-snps/references/snpEff.config
+        # shellcheck disable=SC2129
+        echo -e ref.genome : rMAP-1.0 >>"$OUTPUT"/variant_calling/snps/combined-snps/references/snpEff.config
+        # shellcheck disable=SC2046
+        echo -e '\t' ref.chromosome : $(grep -v "##" "$OUTPUT"/variant_calling/snps/combined-snps/references/combined.filt.vcf | grep -v "#" | head -n1 | cut -f1) >>"$OUTPUT"/variant_calling/snps/combined-snps/references/snpEff.config
+        # shellcheck disable=SC2046
+        echo -e '\t' ref.$(grep -v "##" "$OUTPUT"/variant_calling/snps/combined-snps/references/combined.filt.vcf | grep -v "#" | head -n1 | cut -f1).codonTable : Bacterial_and_Plant_Plastid >>"$OUTPUT"/variant_calling/snps/combined-snps/references/snpEff.config
 
         ##-------- Creating annotation folders as required by snpEff, copying .fasta files and .gff3 into genome & genes respectively and renaming to sequence.fa and genes.gff----##
-        cp -f $TEMP/$y.fa $OUTPUT/variant_calling/snps/combined-snps/references/genomes &&
-            mv $OUTPUT/variant_calling/snps/combined-snps/references/genomes/$y.fa $OUTPUT/variant_calling/snps/combined-snps/references/genomes/ref.fa
-        cp -f $TEMP/$y.gff3 $OUTPUT/variant_calling/snps/combined-snps/references/ref &&
-            mv $OUTPUT/variant_calling/snps/combined-snps/references/ref/$y.gff3 $OUTPUT/variant_calling/snps/combined-snps/references/ref/genes.gff
-        gzip -c $OUTPUT/variant_calling/snps/combined-snps/references/ref/genes.gff >$OUTPUT/variant_calling/snps/combined-snps/references/ref/genes.gff.gz
+        cp -f "$TEMP"/"$y".fa "$OUTPUT"/variant_calling/snps/combined-snps/references/genomes &&
+            mv "$OUTPUT"/variant_calling/snps/combined-snps/references/genomes/"$y".fa "$OUTPUT"/variant_calling/snps/combined-snps/references/genomes/ref.fa
+        cp -f "$TEMP"/"$y".gff3 "$OUTPUT"/variant_calling/snps/combined-snps/references/ref &&
+            mv "$OUTPUT"/variant_calling/snps/combined-snps/references/ref/"$y".gff3 "$OUTPUT"/variant_calling/snps/combined-snps/references/ref/genes.gff
+        gzip -c "$OUTPUT"/variant_calling/snps/combined-snps/references/ref/genes.gff >"$OUTPUT"/variant_calling/snps/combined-snps/references/ref/genes.gff.gz
 
         ##------------------------------------------------ Building database-------------------------------##
-        snpEff build -c $OUTPUT/variant_calling/snps/combined-snps/references/snpEff.config -dataDir . -gff3 -v ref
-
+        snpEff build -c "$OUTPUT"/variant_calling/snps/combined-snps/references/snpEff.config -dataDir . -gff3 -v ref
         ##---------------------------------------------------NOW ANNOTATING--------------------------------##
-        java -Xmx8g -jar $SNPEFF/snpEff.jar ann -noLog -noStats -no-downstream -no-upstream -no-utr -v -c $OUTPUT/variant_calling/snps/combined-snps/references/snpEff.config -dataDir . ref $OUTPUT/variant_calling/snps/combined-snps/references/combined.filt.vcf >$OUTPUT/variant_calling/snps/combined.annot.vcf
-        cp -f $OUTPUT/variant_calling/snps/combined.annot.vcf $OUTPUT/variant_calling
+        java -Xmx8g -jar "$SNPEFF"/snpEff.jar ann -noLog -noStats -no-downstream -no-upstream -no-utr -v -c "$OUTPUT"/variant_calling/snps/combined-snps/references/snpEff.config -dataDir . ref "$OUTPUT"/variant_calling/snps/combined-snps/references/combined.filt.vcf >"$OUTPUT"/variant_calling/snps/combined.annot.vcf
+        cp -f "$OUTPUT"/variant_calling/snps/combined.annot.vcf "$OUTPUT"/variant_calling
         ###----------------------------------- Converting annotated vcfs to TAB format---------------------##
-        snippy-vcf_to_tab --gff $OUTPUT/variant_calling/snps/combined-snps/references/ref/genes.gff --ref $OUTPUT/variant_calling/snps/combined-snps/references/genomes/ref.fa --vcf $OUTPUT/variant_calling/combined.annot.vcf >$OUTPUT/variant_calling/combined.annot.tab
+        snippy-vcf_to_tab --gff "$OUTPUT"/variant_calling/snps/combined-snps/references/ref/genes.gff --ref "$OUTPUT"/variant_calling/snps/combined-snps/references/genomes/ref.fa --vcf "$OUTPUT"/variant_calling/combined.annot.vcf >"$OUTPUT"/variant_calling/combined.annot.tab
 
         echo "Your Run Took Approximately: $((end - start)) seconds."
-        echo -e $Green"VCF Annotation Successfuly Completed in: $((end - start)) seconds."$Off
+        echo -e "$Green""VCF Annotation Successfuly Completed in: $((end - start)) seconds.""$Off"
 
     elif [[ $REFERENCE =~ \.fasta$ ]]; then
-        echo $Red".fasta found !!! no annotation"$Off | tee -a $OUTPUT/rMAP.log
-        echo "$TEMP/$REFERENCE" | awk -F"." '{print $1}' | cut -d/ -f3 >$TEMP/temp.txt
-        x="$(cat $TEMP/temp.txt)"
-        mv $TEMP/$REFERENCE $TEMP/$x.fa
-        bwa index $TEMP/*.fa
-        samtools faidx $TEMP/*.fa
+        echo "$Red"".fasta found !!! no annotation""$Off" | tee -a "$OUTPUT"/rMAP.log
+        echo "$TEMP/$REFERENCE" | awk -F"." '{print $1}' | cut -d/ -f3 >"$TEMP"/temp.txt
+        x="$(cat "$TEMP"/temp.txt)"
+        mv "$TEMP"/"$REFERENCE" "$TEMP"/"$x".fa
+        bwa index "$TEMP"/*.fa
+        samtools faidx "$TEMP"/*.fa
         for sample in $(cat $OUTPUT/list.txt); do
             A=${sample}.clean_1.fastq.gz
             B=${sample}.clean_2.fastq.gz
-            echo -e $Blue"Processing sample: "$sample$Off
-            bwa mem -Y -M -R "@RG\tID:${sample}\tSM:${sample}" -t $CPUS $REF $OUTPUT/trimmed_reads/$A $OUTPUT/trimmed_reads/$B |
+            echo -e "$Blue""Processing sample: ""$sample""$Off"
+            bwa mem -Y -M -R "@RG\tID:${sample}\tSM:${sample}" -t $CPUS "$REF" "$OUTPUT"/trimmed_reads/"$A" "$OUTPUT"/trimmed_reads/"$B" |
                 samclip --max 10 --ref $IND | # filter out soft and hard clipped alignments from sam file
-                samtools sort -n -l 0 -T $temp/${sample} --threads 8 -m 1000M |
+                samtools sort -n -l 0 -T "$temp"/"${sample}" --threads 8 -m 1000M |
                 samtools fixmate -m - - |
-                samtools sort -l 0 -T $temp/${sample} --threads 8 -m 1000M |
-                samtools markdup -T $temp/${sample} -r -s - - >$OUTPUT/variant_calling/${sample}.mrkdup.bam
-            samtools index $OUTPUT/variant_calling/${sample}.mrkdup.bam
-        done | tee -a $OUTPUT/rMAP.log
+                samtools sort -l 0 -T "$temp"/"${sample}" --threads 8 -m 1000M |
+                samtools markdup -T "$temp"/"${sample}" -r -s - - >"$OUTPUT"/variant_calling/"${sample}".mrkdup.bam
+            samtools index "$OUTPUT"/variant_calling/"${sample}".mrkdup.bam
+        done | tee -a "$OUTPUT"/rMAP.log
         end=$SECONDS
-        echo -e $Green"Your Alignment Run Took Approximately: $((end - start)) seconds."$Off
+        echo -e "$Green""Your Alignment Run Took Approximately: $((end - start)) seconds.""$Off"
+        
         ##################### Variant calling #####################################
         ###########----------------- Individual sample sample variant calling ---------------###########
         start=$SECONDS
         TEMP="$OUTPUT/references"
         REF="$TEMP/*.fa"
-        mkdir -p $OUTPUT/variant_calling/snps
+        mkdir -p "$OUTPUT"/variant_calling/snps
         for sample in $(cat $OUTPUT/list.txt); do
             x=${sample}.mrkdup.bam
 
-            echo -e $Blue"Processing sample: "$sample$Off
-            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f $REF -b $OUTPUT/variant_calling/$x -v $OUTPUT/variant_calling/${sample}.raw.vcf
-            bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' $OUTPUT/variant_calling/${sample}.raw.vcf | vt normalize -r $REF - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >$OUTPUT/variant_calling/${sample}.filt.vcf
+            echo -e "$Blue""Processing sample: ""$sample""$Off"
+            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f "$REF" -b "$OUTPUT"/variant_calling/"$x" -v "$OUTPUT"/variant_calling/"${sample}".raw.vcf
+            bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' "$OUTPUT"/variant_calling/"${sample}".raw.vcf | vt normalize -r "$REF" - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >"$OUTPUT"/variant_calling/"${sample}".filt.vcf
 
-        done | tee -a $OUTPUT/rMAP.log
+        done | tee -a "$OUTPUT"/rMAP.log
         end=$SECONDS
-        echo -e $Green"Your Variant Call Run Took Approximately: $((end - start)) seconds."$Off
+        echo -e "$Green""Your Variant Call Run Took Approximately: $((end - start)) seconds.""$Off"
 
         ###########--------------- Multiple sample/all-sample-single-file variant calling -------------------##########
         start=$SECONDS
@@ -640,47 +648,47 @@ if [ "$VARCALL" -ne "0" ]; then
         for sample in $(cat $HOME/$OUTPUT/list.txt); do
             x="$x$OUTPUT/variant_calling/${sample}.mrkdup.bam "
 
-            echo -e $Blue"Processing sample: $sample"$Off
-            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f $REF -b $x -v $OUTPUT/variant_calling/combined.raw.vcf
+            echo -e "$Blue""Processing sample: $sample""$Off"
+            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f "$REF" -b "$x" -v "$OUTPUT"/variant_calling/combined.raw.vcf
             end=$SECONDS
-            echo -e $Green"Your Variant Call Run Took Approximately: $((end - start)) seconds."$Off
-        done | tee -a $OUTPUT/rMAP.log
-        bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' $OUTPUT/variant_calling/combined.raw.vcf | vt normalize -r $REF - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >$OUTPUT/variant_calling/combined.filt.vcf
+            echo -e "$Green""Your Variant Call Run Took Approximately: $((end - start)) seconds.""$Off"
+        done | tee -a "$OUTPUT"/rMAP.log
+        bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' "$OUTPUT"/variant_calling/combined.raw.vcf | vt normalize -r "$REF" - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >"$OUTPUT"/variant_calling/combined.filt.vcf
     else
         echo ".fa found !!! no annotation"
-        bwa index $TEMP/*.fa
-        samtools faidx $TEMP/*.fa
+        bwa index "$TEMP"/*.fa
+        samtools faidx "$TEMP"/*.fa
         for sample in $(cat $OUTPUT/list.txt); do
             A=${sample}.clean_1.fastq.gz
             B=${sample}.clean_2.fastq.gz
-            echo -e $Blue"Processing sample: "$sample$Off
+            echo -e "$Blue""Processing sample: ""$sample""$Off"
 
-            bwa mem -Y -M -R "@RG\tID:${sample}\tSM:${sample}" -t $CPUS $REF $OUTPUT/trimmed_reads/$A $OUTPUT/trimmed_reads/$B |
-                samclip --max 10 --ref $IND | # filter out soft and hard clipped alignments from sam file
-                samtools sort -n -l 0 -T $temp/${sample} --threads 8 -m 1000M |
+            bwa mem -Y -M -R "@RG\tID:${sample}\tSM:${sample}" -t $CPUS "$REF" "$OUTPUT"/trimmed_reads/"$A" "$OUTPUT"/trimmed_reads/"$B" |
+                samclip --max 10 --ref "$IND" | # filter out soft and hard clipped alignments from sam file
+                samtools sort -n -l 0 -T "$temp"/"${sample}" --threads 8 -m 1000M |
                 samtools fixmate -m - - |
-                samtools sort -l 0 -T $temp/${sample} --threads 8 -m 1000M |
-                samtools markdup -T $temp/${sample} -r -s - - >$OUTPUT/variant_calling/${sample}.mrkdup.bam
-            samtools index $OUTPUT/variant_calling/${sample}.mrkdup.bam
-        done | tee -a $OUTPUT/rMAP.log
+                samtools sort -l 0 -T "$temp"/"${sample}" --threads 8 -m 1000M |
+                samtools markdup -T "$temp"/"${sample}" -r -s - - >"$OUTPUT"/variant_calling/"${sample}".mrkdup.bam
+            samtools index "$OUTPUT"/variant_calling/"${sample}".mrkdup.bam
+        done | tee -a "$OUTPUT"/rMAP.log
         end=$SECONDS
-        echo -e $Green"Your Alignment Run Took Approximately: $((end - start)) seconds."$Off
+        echo -e "$Green""Your Alignment Run Took Approximately: $((end - start)) seconds.""$Off"
         ##################### Variant calling #####################################
         #######----------------- Individual sample sample variant calling ---------------############
         start=$SECONDS
         TEMP="$OUTPUT/references"
         REF="$TEMP/*.fa"
-        mkdir -p $OUTPUT/variant_calling/snps
+        mkdir -p "$OUTPUT"/variant_calling/snps
         for sample in $(cat $OUTPUT/list.txt); do
             x=${sample}.mrkdup.bam
 
-            echo -e $Blue"Processing sample: "$sample$Off
-            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f $REF -b $OUTPUT/variant_calling/$x -v $OUTPUT/variant_calling/${sample}.raw.vcf
-            bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' $OUTPUT/variant_calling/${sample}.raw.vcf | vt normalize -r $REF - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >$OUTPUT/variant_calling/${sample}.filt.vcf
+            echo -e "$Blue""Processing sample: ""$sample""$Off"
+            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f "$REF" -b "$OUTPUT"/variant_calling/"$x" -v "$OUTPUT"/variant_calling/"${sample}".raw.vcf
+            bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' "$OUTPUT"/variant_calling/"${sample}".raw.vcf | vt normalize -r "$REF" - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >"$OUTPUT"/variant_calling/"${sample}".filt.vcf
 
-        done | tee -a $OUTPUT/rMAP.log
+        done | tee -a "$OUTPUT"/rMAP.log
         end=$SECONDS
-        echo -e $Green"Your Variant Call Run Took Approximately: $((end - start)) seconds."$Off
+        echo -e "$Green""Your Variant Call Run Took Approximately: $((end - start)) seconds.""$Off"
 
         ################--------------- Multiple sample/all-sample-single-file variant calling -------------------#
         start=$SECONDS
@@ -690,133 +698,133 @@ if [ "$VARCALL" -ne "0" ]; then
         for sample in $(cat $HOME/$OUTPUT/list.txt); do
             x="$x$OUTPUT/variant_calling/${sample}.mrkdup.bam "
 
-            echo -e $Blue"Processing sample: "$sample$Off
-            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f $REF -b $x -v $OUTPUT/variant_calling/combined.raw.vcf
+            echo -e "$Blue""Processing sample: ""$sample""$Off"
+            freebayes -p 2 -P 0 -C 10 --min-repeat-entropy 1.5 --strict-vcf -q 13 -m 60 --min-coverage 10 -F 0.05 -f "$REF" -b "$x" -v "$OUTPUT"/variant_calling/combined.raw.vcf
             end=$SECONDS
             echo "Your Run Took Approximately: $((end - start)) seconds."
-        done | tee -a $OUTPUT/rMAP.log
-        bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' $OUTPUT/variant_calling/combined.raw.vcf | vt normalize -r $REF - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >$OUTPUT/variant_calling/combined.filt.vcf
+        done | tee -a "$OUTPUT"/rMAP.log
+        bcftools view --include 'FMT/GT="1/1" && QUAL>=100 && FMT/DP>=10 && (FMT/AO)/(FMT/DP)>=0' "$OUTPUT"/variant_calling/combined.raw.vcf | vt normalize -r "$REF" - | bcftools annotate --remove '^INFO/TYPE,^INFO/DP,^INFO/RO,^INFO/AO,^INFO/AB,^FORMAT/GT,^FORMAT/DP,^FORMAT/RO,^FORMAT/AO,^FORMAT/QR,^FORMAT/QA,^FORMAT/GL' >"$OUTPUT"/variant_calling/combined.filt.vcf
     fi
 else
-    echo -e $Red"No reference was given: rMAP will continue without performing variant calling..."$Off
+    echo -e "$Red""No reference was given: rMAP will continue without performing variant calling...""$Off"
 fi
 end=$SECONDS
-echo -e $Green"Your Variant Call Run Took Approximately: $((end - start)) seconds."$Off
-rm -rf $OUTPUT/variant_calling/*.bam $OUTPUT/variant_calling/*.bai
+echo -e "$Green""Your Variant Call Run Took Approximately: $((end - start)) seconds.""$Off"
+rm -rf "$OUTPUT"/variant_calling/*.bam "$OUTPUT"/variant_calling/*.bai
 ##########----------------------- PHYLOGENY INFERENCE------------------------ ###########################
 start=$SECONDS
 if [ "$PHY" -ne "0" ]; then
     PHY=1
-    echo -e $Blue"\nrMAP is will now perform Inference of Phylogeny on the Variants..."$Off
+    echo -e "$Blue""\nrMAP is will now perform Inference of Phylogeny on the Variants...""$Off"
     cd
-    POSTANAL="$HOME/miniconda3/envs/rMAP-1.0/config-files/"
-    mkdir -p $OUTPUT/phylogeny && cp -r $OUTPUT/variant_calling/combined.filt.vcf $OUTPUT/phylogeny
+    POSTANAL="$CONDA_PREFIX/config-files/"
+    mkdir -p "$OUTPUT"/phylogeny && cp -r "$OUTPUT"/variant_calling/combined.filt.vcf "$OUTPUT"/phylogeny
 
     #########--- Converting the genotypes of the multiple samples to .fa format for alignment -----##########
-    python $POSTANAL/vcf2phylip.py -i $OUTPUT/phylogeny/combined.filt.vcf --phylip-disable -f
-    mv $OUTPUT/phylogeny/*.fasta $OUTPUT/phylogeny/combined.filt.fasta
-    rm -rf $OUTPUT/phylogeny/*.vcf
+    python "$POSTANAL"/vcf2phylip.py -i "$OUTPUT"/phylogeny/combined.filt.vcf --phylip-disable -f
+    mv "$OUTPUT"/phylogeny/*.fasta "$OUTPUT"/phylogeny/combined.filt.fasta
+    rm -rf "$OUTPUT"/phylogeny/*.vcf
     ######--------- MULTIPLE SEQUENCE ALIGNMENT USING MAFFT-------------------------
 
     ######------------Alignment at adjusted gap-score 2.0
-    mafft --retree 1 --thread 8 $OUTPUT/phylogeny/combined.filt.fasta >$OUTPUT/phylogeny/combined.filt-algn.fasta
+    mafft --retree 1 --thread 8 "$OUTPUT"/phylogeny/combined.filt.fasta" >$OUTP"UT/phylogeny/combined.filt-algn.fasta
     ######------------Applying BMGE[Block Mapping and Gathering with Entropy] to remove poorlyly aligned regions
-    bmge -i $OUTPUT/phylogeny/combined.filt-algn.fasta -t DNA -o $OUTPUT/phylogeny/combined.filt-algn.phy -on $OUTPUT/phylogeny/combined.filt-algn.nex
+    bmge -i "$OUTPUT"/phylogeny/combined.filt-algn.fasta -t DNA -o "$OUTPUT"/phylogeny/combined.filt-algn.phy -on "$OUTPUT"/phylogeny/combined.filt-algn.nex
     #####------------------ Applying inference in 1000 Bootraps #################
-    iqtree -s $OUTPUT/phylogeny/combined.filt-algn.phy -T AUTO -m MFP -B 1000
+    iqtree -s "$OUTPUT"/phylogeny/combined.filt-algn.phy -T AUTO -m MFP -B 1000
     end=$SECONDS
-    echo -e $Blue"Your Phylogeny on the Variants Took Approximately: $((end - start)) seconds...."$Off
+    echo -e "$Blue""Your Phylogeny on the Variants Took Approximately: $((end - start)) seconds....""$Off"
 else
-    echo -e $Red"'--phylogeny' option wasn't selected: rMAP will skip this operation...."$Off
+    echo -e "$Red""'--phylogeny' option wasn't selected: rMAP will skip this operation....""$Off"
 fi
 ###################------------------------------------AMR DETECTION-------------------------- ####################################
 if [ "$AMR" -ne "0" ]; then
     AMR=1
     start=$SECONDS
-    echo -e $Blue"\nrMAP is will now perform Antimicrobial Resistance Prediction..."$Off
-    echo -e $Red"Running NCBI-amrfinder Plus...\n"$Off
+    echo -e "$Blue""\nrMAP is will now perform Antimicrobial Resistance Prediction...""$Off"
+    echo -e "$Red""Running NCBI-amrfinder Plus...\n""$Off"
     # amrfinder --update
     cd
-    mkdir -p $OUTPUT/resistance_genes/{NCBI,ABRICATE}
+    mkdir -p "$OUTPUT"/resistance_genes/{NCBI,ABRICATE}
     for sample in $(cat $OUTPUT/list.txt); do
-        echo -e $Blue"Processing sample: "$sample$Off
-        mkdir -p $OUTPUT/resistance_genes/NCBI/${sample}
-        amrfinder --nucleotide $OUTPUT/assembly/${sample}/${sample}.fa --plus --output $OUTPUT/resistance_genes/NCBI/${sample}/$sample.tab --threads 8
+        echo -e "$Blue""Processing sample: ""$sample""$Off"
+        mkdir -p "$OUTPUT"/resistance_genes/NCBI/"${sample}"
+        amrfinder --nucleotide "$OUTPUT"/assembly/"${sample}"/"${sample}".fa --plus --output "$OUTPUT"/resistance_genes/NCBI/"${sample}"/"$sample".tab --threads 8
 
     done
     end=$SECONDS
-    echo -e $Blue"Antimicrobial Resistance profiling using NCBI-amrfinder Plus completed in: $((end - start)) seconds...."$Off
+    echo -e "$Blue""Antimicrobial Resistance profiling using NCBI-amrfinder Plus completed in: $((end - start)) seconds....""$Off"
 
     ########## --------------------         ABRICATE       -------------------------------------------------------------------######
     start=$SECONDS
-    echo -e $Red"Running Abricate...\n"$Off
+    echo -e "$Red""Running Abricate...\n""$Off"
     abricate --setupdb
     abricate --check
     cd
 
     for sample in $(cat $OUTPUT/list.txt); do
-        echo -e $Blue"Processing sample: "$sample$Off
-        mkdir -p $OUTPUT/resistance_genes/ABRICATE/${sample}
+        echo -e "$Blue""Processing sample: ""$sample""$Off"
+        mkdir -p "$OUTPUT"/resistance_genes/ABRICATE/"${sample}"
         for i in resfinder card argannot ncbi megares; do
-            abricate $OUTPUT/assembly/${sample}/${sample}.fa --threads 8 --nopath --db $i >$OUTPUT/resistance_genes/ABRICATE/${sample}/${sample}_${i}.tab
-            sed -i 's/\.fa//' $OUTPUT/resistance_genes/ABRICATE/${sample}/${sample}_${i}.tab
+            abricate "$OUTPUT"/assembly/"${sample}"/"${sample}".fa --threads 8 --nopath --db $i >"$OUTPUT"/resistance_genes/ABRICATE/"${sample}"/"${sample}"_${i}.tab
+            sed -i 's/\.fa//' "$OUTPUT"/resistance_genes/ABRICATE/"${sample}"/"${sample}"_${i}.tab
         done
     done
     end=$SECONDS
-    echo -e $Blue"Antimicrobial Resistance profiling using Abricate completed in: $((end - start)) seconds...."$Off
+    echo -e "$Blue""Antimicrobial Resistance profiling using Abricate completed in: $((end - start)) seconds....""$Off"
     # ---------------------------------------------------------------------------------------------------------------------------
     ##########------------------------------PLASMIDS & VIRULENCE FACTORS------------------------------------#######
     ##########-------------------------------virulence factors----------------------------------------------#######
     cd
-    mkdir -p $OUTPUT/{virulence_factors,plasmids}
+    mkdir -p "$OUTPUT"/{virulence_factors,plasmids}
     for sample in $(cat $OUTPUT/list.txt); do
-        echo -e $Blue"Processing sample: $sample"$Off
-        abricate $OUTPUT/assembly/${sample}/${sample}.fa --threads 8 --nopath --db vfdb >$OUTPUT/virulence_factors/$sample.tab
+        echo -e "$Blue""Processing sample: $sample""$Off"
+        abricate "$OUTPUT"/assembly/"${sample}"/"${sample}".fa --threads 8 --nopath --db vfdb >"$OUTPUT"/virulence_factors/"$sample".tab
     done
-    abricate --summary $OUTPUT/virulence_factors/*.tab >$OUTPUT/virulence_factors/summary-vf.tab
+    abricate --summary "$OUTPUT"/virulence_factors/*.tab >"$OUTPUT"/virulence_factors/summary-vf.tab
 
     for sample in $(cat $OUTPUT/list.txt); do
-        echo -e $Blue"Processing sample: $sample"$Off
-        abricate $OUTPUT/assembly/${sample}/${sample}.fa --threads 8 --nopath --db plasmidfinder >$OUTPUT/plasmids/${sample}.tab
+        echo -e "$Blue""Processing sample: $sample""$Off"
+        abricate "$OUTPUT"/assembly/"${sample}"/"${sample}".fa --threads 8 --nopath --db plasmidfinder >"$OUTPUT"/plasmids/"${sample}".tab
     done
-    abricate --summary $OUTPUT/plasmids/*.tab >$OUTPUT/plasmids/summary-plasmids.tab
+    abricate --summary "$OUTPUT"/plasmids/*.tab >"$OUTPUT"/plasmids/summary-plasmids.tab
     #---------------------------------------------------------------------------------------------------------------------------
     end=$SECONDS
-    echo -e $Blue"Your AMR, Virulence Factors & Plasmid Run Took Approximately: $((end - start)) seconds."$Off
+    echo -e "$Blue""Your AMR, Virulence Factors & Plasmid Run Took Approximately: $((end - start)) seconds.""$Off"
 else
-    echo -e $Red"'--amr' option was not selected; rMAP is created by default to profile the Resistome ... Please select this option from the menu"$Off
+    echo -e "$Red""'--amr' option was not selected; rMAP is created by default to profile the Resistome ... Please select this option from the menu""$Off"
     exit 1
 fi
 
 # ##############-----------------------------  MLSTS  --------------------------------------------------------------------------------   #####
-mkdir -p $OUTPUT/mlsts
-mkdir -p $OUTPUT/genomes
+mkdir -p "$OUTPUT"/mlsts
+mkdir -p "$OUTPUT"/genomes
 for w in $(cat $OUTPUT/list.txt); do
-    cp -r $OUTPUT/assembly/${w}/${w}.fa $OUTPUT/genomes
+    cp -r "$OUTPUT"/assembly/"${w}"/"${w}".fa "$OUTPUT"/genomes
 done
 for w in $(cat $OUTPUT/list.txt); do
-    mlst --threads $CPUS $OUTPUT/genomes/${w}.fa --nopath >>$OUTPUT/mlsts/mlst-temp.tab
+    mlst --threads $CPUS "$OUTPUT"/genomes/"${w}".fa --nopath >>"$OUTPUT"/mlsts/mlst-temp.tab
 done
-sed -i 's/\.fa//' $OUTPUT/mlsts/mlst-temp.tab
-sort $OUTPUT/mlsts/mlst-temp.tab >$OUTPUT/mlsts/mlst.tab
-cp -rf $OUTPUT/mlsts/mlst.tab $OUTPUT/reports
-rm -rf $OUTPUT/genomes
-rm -rf $OUTPUT/mlsts/mlsts.tab
+sed -i 's/\.fa//' "$OUTPUT"/mlsts/mlst-temp.tab
+sort "$OUTPUT"/mlsts/mlst-temp.tab >"$OUTPUT"/mlsts/mlst.tab
+cp -rf "$OUTPUT"/mlsts/mlst.tab "$OUTPUT"/reports
+rm -rf "$OUTPUT"/genomes
+rm -rf "$OUTPUT"/mlsts/mlsts.tab
 
 ############## ----------------------------  QUAST         -------------------------------------------------------------------------   #####
 if [ -d "$OUTPUT/assembly/" ]; then
 
     start=$SECONDS
-    echo -e $Red"rMAP will now run some assembly stats using Quast...\n"$Off | tee -a $OUTPUT/rMAP.log
+    echo -e "$Red""rMAP will now run some assembly stats using Quast...\n""$Off" | tee -a "$OUTPUT"/rMAP.log
     mkdir -p $OUTPUT/quast_assembly_stats
     for i in $(cat $OUTPUT/list.txt); do
-        echo -e $Blue"Processing sample: $i"$Off
-        quast $OUTPUT/assembly/${i}/${i}.fa -o $OUTPUT/quast_assembly_stats/${i}_quast_stats -t $CPUS --min-contig 200 --no-icarus --silent --no-sv
+        echo -e "$Blue""Processing sample: $i""$Off"
+        quast "$OUTPUT"/assembly/"${i}"/"${i}".fa -o "$OUTPUT"/quast_assembly_stats/"${i}"_quast_stats -t $CPUS --min-contig 200 --no-icarus --silent --no-sv
     done
     end=$SECONDS
-    echo -e $Blue"Your Assembly stats Run Took Approximately: $((end - start)) seconds."$Off
+    echo -e "$Blue""Your Assembly stats Run Took Approximately: $((end - start)) seconds.""$Off"
 else
-    echo -e $Red"No assembly directory was found.. Quast statistics will be skipped by rMAP!! "$Off
+    echo -e "$Red""No assembly directory was found.. Quast statistics will be skipped by rMAP!! ""$Off"
 fi
 # ########### --------------------------- PANGENOME ANALYSIS ------------------------------------------------------------------------------#######
 if [ "$PANGENOME" -ne "0" ]; then
@@ -824,20 +832,20 @@ if [ "$PANGENOME" -ne "0" ]; then
     cd
     start=$SECONDS
     ROARY2SVG="miniconda3/envs/rMAP-1.0/config-files/roary2svg.pl"
-    echo -e $Red"rMAP will now run Pangenome Analysis...\n"$Off
-    mkdir -p $OUTPUT/gffs
+    echo -e "$Red""rMAP will now run Pangenome Analysis...\n""$Off"
+    mkdir -p "$OUTPUT"/gffs
     for sample in $(cat $OUTPUT/list.txt); do
-        echo -e $Blue"Processing sample: $sample"$Off
-        cp -rf $OUTPUT/annotation/${sample}/${sample}.gff $OUTPUT/gffs
+        echo -e "$Blue""Processing sample: $sample""$Off"
+        cp -rf "$OUTPUT"/annotation/"${sample}"/"${sample}".gff "$OUTPUT"/gffs
     done
-    roary -e -n -f $OUTPUT/pangenomes -p $CPUS $OUTPUT/gffs/*.gff
-    fasttree -nt -gtr $OUTPUT/pangenomes/core_gene_alignment.aln >$OUTPUT/pangenomes/core_gene_alignment.newick
-    perl $ROARY2SVG $OUTPUT/pangenomes/gene_presence_absence.csv --colour=Green >$OUTPUT/pangenomes/pangenome.svg
-    cairosvg $OUTPUT/pangenomes/pangenome.svg -o $OUTPUT/pangenome.png
-    mv $OUTPUT/pangenome.png $OUTPUT/pangenomes
-    rm -rf $OUTPUT/gffs
+    roary -e -n -f "$OUTPUT"/pangenomes -p $CPUS "$OUTPUT"/gffs/*.gff
+    fasttree -nt -gtr "$OUTPUT"/pangenomes/core_gene_alignment.aln >"$OUTPUT"/pangenomes/core_gene_alignment.newick
+    perl $ROARY2SVG "$OUTPUT"/pangenomes/gene_presence_absence.csv --colour=Green >"$OUTPUT"/pangenomes/pangenome.svg
+    cairosvg "$OUTPUT"/pangenomes/pangenome.svg -o "$OUTPUT"/pangenome.png
+    mv "$OUTPUT"/pangenome.png "$OUTPUT"/pangenomes
+    rm -rf "$OUTPUT"/gffs
     end=$SECONDS
-    echo -e $Blue"Pangenome Analysis Lasted Approximately: $((end - start)) seconds."$Off
+    echo -e "$Blue""Pangenome Analysis Lasted Approximately: $((end - start)) seconds.""$Off"
 fi
 
 # ############ ----------------------------- INSERTION SEQUENCE & MOBILE GENETIC ELEMENT ANALYSIS ----------------------------------####################
@@ -846,17 +854,17 @@ if [ "$MGE" -ne "0" ]; then
     MGE=1
     start=$SECONDS
     MGE_PATH="$rMAPDIR/../config-files/"
-    echo -e $Red"rMAP will now look for Mobile Genetic Elements and Insertion Sequences...\n"$Off
-    mkdir -p $OUTPUT/insertion_sequences
+    echo -e "$Red""rMAP will now look for Mobile Genetic Elements and Insertion Sequences...\n""$Off"
+    mkdir -p "$OUTPUT"/insertion_sequences
     for sample in $(cat $OUTPUT/list.txt); do
-        echo -e $Blue"Processing sample: $sample"$Off
+        echo -e "$Blue""Processing sample: $sample""$Off"
         A=${sample}.clean_1.fastq.gz
         B=${sample}.clean_2.fastq.gz
-        mkdir -p $OUTPUT/insertion_sequences/${sample}
-        ismap --reads $OUTPUT/trimmed_reads/$A $OUTPUT/trimmed_reads/$B --t $CPUS --queries $MGE_PATH/IS.database.fa --reference $REFERENCE --output_dir $OUTPUT/insertion_sequences/${sample}
+        mkdir -p "$OUTPUT"/insertion_sequences/"${sample}"
+        ismap --reads "$OUTPUT"/trimmed_reads/"$A" "$OUTPUT"/trimmed_reads/"$B" --t $CPUS --queries "$MGE_PATH"/IS.database.fa --reference "$REFERENCE" --output_dir "$OUTPUT"/insertion_sequences/"${sample}"
     done
     end=$SECONDS
-    echo -e $Blue"Insertion Sequence Profiling Lasted Approximately: $((end - start)) seconds."$Off
+    echo -e "$Blue""Insertion Sequence Profiling Lasted Approximately: $((end - start)) seconds.""$Off"
 fi
 ######### -----------------------------   REPORTING   --------------------------------------------------   #####################
 ######### Formatting results & making them Markdown compatible #################
@@ -866,99 +874,106 @@ METADATA="$OUTPUT/list.txt"
 TAB="$(printf '\t')"
 TITLE="rMAP Comprehensive Analysis Report Summary"
 DATE="$(date +"%Y-%m-%d")"
-mkdir -p -m 777 $OUTPUT/reports
+mkdir -p -m 777 "$OUTPUT"/reports
 # #### Creating Assembly report #############
 for i in $(cat $METADATA); do
-    tail -n +2 $OUTPUT/trimmed_reads/$i\.ok.stats.txt >>$OUTPUT/temp2
-    tail -n +2 $OUTPUT/quast_assembly_stats/${i}_quast_stats/transposed_report.tsv | awk -v OFS="$TAB" -F "$TAB" '{print $14,$16,$15,$18,$17}' >>$OUTPUT/temp3
+    tail -n +2 "$OUTPUT"/trimmed_reads/"$i"\.ok.stats.txt >>"$OUTPUT"/temp2
+    tail -n +2 "$OUTPUT"/quast_assembly_stats/"${i}"_quast_stats/transposed_report.tsv | awk -v OFS="$TAB" -F "$TAB" '{print $14,$16,$15,$18,$17}' >>"$OUTPUT"/temp3
 done
-paste -d "$TAB" $OUTPUT/list.txt $OUTPUT/temp2 $OUTPUT/temp3 | awk -v OFS="$TAB" -F "$TAB" '{print $0, $9=$2*$3/$5}' | awk -v OFS="$TAB" -F "$TAB" '{gsub(/\..*$/,"X",$9)}1' >$OUTPUT/assembly_report.txt
-sed -i "1iSampleID${TAB}TrimReads${TAB}MeanReadLen${TAB}Contigs${TAB}GenomeLength${TAB}LargestContig${TAB}N50${TAB}GC-Content${TAB}Depth" $OUTPUT/assembly_report.txt
-cp -rf $OUTPUT/assembly_report.txt $OUTPUT/reports
-rm -f $OUTPUT/temp2 $OUTPUT/temp3
+paste -d "$TAB" "$OUTPUT"/list.txt "$OUTPUT"/temp2 "$OUTPUT"/temp3 | awk -v OFS="$TAB" -F "$TAB" '{print $0, $9=$2*$3/$5}' | awk -v OFS="$TAB" -F "$TAB" '{gsub(/\..*$/,"X",$9)}1' >"$OUTPUT"/assembly_report.txt
+sed -i "1iSampleID${TAB}TrimReads${TAB}MeanReadLen${TAB}Contigs${TAB}GenomeLength${TAB}LargestContig${TAB}N50${TAB}GC-Content${TAB}Depth" "$OUTPUT"/assembly_report.txt
+cp -rf "$OUTPUT"/assembly_report.txt "$OUTPUT"/reports
+rm -f "$OUTPUT"/temp2 "$OUTPUT"/temp3
 ##### 2. AMR gene formatting ###############
 for sample in $(cat $METADATA); do
-    cp -rf $OUTPUT/resistance_genes/ABRICATE/${sample}/*.tab $OUTPUT/reports/
+    cp -rf "$OUTPUT"/resistance_genes/ABRICATE/"${sample}"/*.tab "$OUTPUT"/reports/
 done
 ## ------------- Extracting only genes with >90% Identity
 for i in $(cat $METADATA); do
     for j in resfinder card argannot ncbi megares; do
-        awk -v OFS="$TAB" -F "$TAB" '(NR>1) && ($10 > 90)' $OUTPUT/reports/$i\_$j\.tab >$OUTPUT/reports/$i\_$j\_tmp.tab
-        awk -v OFS="$TAB" -F "$TAB" '($11 > 90)' $OUTPUT/reports/$i\_$j\_tmp.tab >$OUTPUT/reports/$i\_$j\_min90.tab
-        sed -i "1i#FILE${TAB}SEQUENCE${TAB}START${TAB}END${TAB}STRAND${TAB}GENE${TAB}COVERAGE${TAB}COVERAGE_MAP${TAB}GAPS${TAB}%COVERAGE${TAB}%IDENTITY${TAB}DATABASE${TAB}ACCESSION${TAB}PRODUCT${TAB}RESISTANCE" $OUTPUT/reports/$i\_$j\_min90.tab
-        rm -f $OUTPUT/reports/$i\_$j\_tmp.tab
+        # shellcheck disable=SC1001
+        awk -v OFS="$TAB" -F "$TAB" '(NR>1) && ($10 > 90)' "$OUTPUT"/reports/"$i"\_$j\.tab >"$OUTPUT"/reports/"$i"\_$j\_tmp.tab
+        # shellcheck disable=SC1001
+        awk -v OFS="$TAB" -F "$TAB" '($11 > 90)' "$OUTPUT"/reports/"$i"\_$j\_tmp.tab >"$OUTPUT"/reports/"$i"\_$j\_min90.tab
+        # shellcheck disable=SC1001
+        sed -i "1i#FILE${TAB}SEQUENCE${TAB}START${TAB}END${TAB}STRAND${TAB}GENE${TAB}COVERAGE${TAB}COVERAGE_MAP${TAB}GAPS${TAB}%COVERAGE${TAB}%IDENTITY${TAB}DATABASE${TAB}ACCESSION${TAB}PRODUCT${TAB}RESISTANCE" "$OUTPUT"/reports/"$i"\_$j\_min90.tab
+        # shellcheck disable=SC1001
+        rm -f "$OUTPUT"/reports/"$i"\_$j\_tmp.tab
     done
 done
 ### ------------ Creating summary stats for each database used
 for j in resfinder card argannot ncbi megares; do
-    abricate $OUTPUT/reports/*$j\_min90.tab --summary --nopath >$OUTPUT/reports/$j\_summary.tab
-    sed -i "s/$j\_min90.tab//" $OUTPUT/reports/$j\_summary.tab
+    # shellcheck disable=SC1001
+    abricate "$OUTPUT"/reports/*$j\_min90.tab --summary --nopath >"$OUTPUT"/reports/$j\_summary.tab
+    # shellcheck disable=SC1001
+    sed -i "s/$j\_min90.tab//" "$OUTPUT"/reports/$j\_summary.tab
 done
 
 for j in resfinder card argannot ncbi megares; do
     for i in $(cat $METADATA); do
-        sed -i "s/$i\_/$i/" $OUTPUT/reports/$j\_summary.tab
+        # shellcheck disable=SC1001
+        sed -i "s/$i\_/$i/" "$OUTPUT"/reports/$j\_summary.tab
     done
 done
 ### ---------- Further formatting of summary files
 for j in resfinder card argannot ncbi megares; do
-    sed -i 's/'\''//g' $OUTPUT/reports/$j\_summary.tab
-    sed -i 's/#FILE/FILE/g' $OUTPUT/reports/$j\_summary.tab
-    sed -i "s/\t\./\t0/g" $OUTPUT/reports/$j\_summary.tab
+    sed -i 's/'\''//g' "$OUTPUT"/reports/$j\_summary.tab
+    sed -i 's/#FILE/FILE/g' "$OUTPUT"/reports/$j\_summary.tab
+    sed -i "s/\t\./\t0/g" "$OUTPUT"/reports/$j\_summary.tab
     sed -i 's/[0-9]*;[0-9]*/abc/g' $OUTPUT/reports/$j\_summary.tab
-    sed -i 's/abc.//g' $OUTPUT/reports/$j\_summary.tab
+    sed -i 's/abc.//g' "$OUTPUT"/reports/$j\_summary.tab
 done
 ### Resfinder gene per isolate
-cut -d "$TAB" -f 5 $OUTPUT/reports/*resfinder_min90.tab | sed "s/GENE//" | sed "/^$/d" | sort -u >$OUTPUT/reports/tmp1.txt
-for i in $(<$OUTPUT/reports/tmp1.txt); do
-    echo -e "$i\t\c" >>$OUTPUT/reports/tmp2.txt
-    cat $OUTPUT/reports/*resfinder_min90.tab | grep -c $i >>$OUTPUT/reports/tmp2.txt
+cut -d "$TAB" -f 5 "$OUTPUT"/reports/*resfinder_min90.tab | sed "s/GENE//" | sed "/^$/d" | sort -u >"$OUTPUT"/reports/tmp1.txt
+for i in $(<"$OUTPUT"/reports/tmp1.txt); do
+    echo -e "$i\t\c" >>"$OUTPUT"/reports/tmp2.txt
+    cat "$OUTPUT"/reports/*resfinder_min90.tab | grep -c "$i" >>"$OUTPUT"/reports/tmp2.txt
 done
-cut -d "$TAB" -f 1 $OUTPUT/reports/tmp2.txt | sed "s/_.*//" >$OUTPUT/reports/tmp3.txt
-for i in $(<$OUTPUT/reports/tmp3.txt); do
-    if ! grep -i "^$i\s" $rMAPDIR/../config-files/amr-genes.txt &>/dev/null; then
-        echo "Unknown" >>$OUTPUT/reports/tmp4.txt
+cut -d "$TAB" -f 1 "$OUTPUT"/reports/tmp2.txt | sed "s/_.*//" >"$OUTPUT"/reports/tmp3.txt
+for i in $(<"$OUTPUT"/reports/tmp3.txt); do
+    if ! grep -i "^$i\s" "$rMAPDIR"/../config-files/amr-genes.txt &>/dev/null; then
+        echo "Unknown" >>"$OUTPUT"/reports/tmp4.txt
     else
-        grep -i "^$i\s" $rMAPDIR/../config-files/amr-genes.txt | cut -f 2 >>$OUTPUT/reports/tmp4.txt
+        grep -i "^$i\s" "$rMAPDIR"/../config-files/amr-genes.txt | cut -f 2 >>"$OUTPUT"/reports/tmp4.txt
     fi
 done
-paste -d "$TAB" $OUTPUT/reports/tmp2.txt $OUTPUT/reports/tmp4.txt >$OUTPUT/reports/resfinder_gene_per_isolate.txt
-sed -i "1iGene${TAB}Count${TAB}Resistance" $OUTPUT/reports/resfinder_gene_per_isolate.txt
-rm -rf $OUTPUT/reports/tmp*.txt
-rm -rf $OUTPUT/reports/*min90.tab
+paste -d "$TAB" "$OUTPUT"/reports/tmp2.tx"t $OUTP"UT/reports/tmp4.txt" >$OUTP"UT/reports/resfinder_gene_per_isolate.txt
+sed -i "1iGene${TAB}Count${TAB}Resistance" "$OUTPUT"/reports/resfinder_gene_per_isolate.txt
+rm -rf "$OUTPUT"/reports/tmp*.txt
+rm -rf "$OUTPUT"/reports/*min90.tab
 
 for i in $(cat $METADATA); do
     for j in resfinder card argannot ncbi megares; do
-        sed -i "s/;/, /g" $OUTPUT/reports/$i\_$j.tab
+        sed -i "s/;/, /g" "$OUTPUT"/reports/$i\_$j.tab
     done
 done
 ##### 3. Plasmid replicon formatting ########
 for i in $(cat $METADATA); do
-    cp -rf $OUTPUT/plasmids/${i}.tab $OUTPUT/reports/
-    mv $OUTPUT/reports/${i}.tab $OUTPUT/reports/${i}_plasmids.tab
-    sed -i 's/\.fa//' $OUTPUT/reports/${i}_plasmids.tab
-    sed -i 's/#FILE/FILE/g' $OUTPUT/reports/${i}_plasmids.tab
+    cp -rf "$OUTPUT"/plasmids/${i}.tab "$OUTPUT"/reports/
+    mv "$OUTPUT"/reports/${i}.tab "$OUTPUT"/reports/"${i}"_plasmids.tab
+    sed -i 's/\.fa//' "$OUTPUT"/reports/"${i}"_plasmids.tab
+    sed -i 's/#FILE/FILE/g' "$OUTPUT"/reports/"${i}"_plasmids.tab
 done
 ##### 4. Virulence factor formatting ######
 SED="$HOME/miniconda3/envs/rMAP-1.0/bin/sed"
 for i in $(cat $METADATA); do
-    cp -rf $OUTPUT/virulence_factors/${i}.tab $OUTPUT/reports/
-    sed -i 's/\.fa//' $OUTPUT/reports/${i}.tab
-    cut -d$'\t' -f2-6,10-11,13-14 $OUTPUT/reports/${i}.tab >$OUTPUT/reports/${i}_vfdb.tab
-    $SED -i '1d' $OUTPUT/reports/${i}_vfdb.tab
-    $SED -i "1iContig${TAB}Start${TAB}End${TAB}Strand${TAB}Gene${TAB}Coverage${TAB}Identity${TAB}Accession${TAB}Product" $OUTPUT/reports/${i}_vfdb.tab
+    cp -rf "$OUTPUT"/virulence_factors/${i}.tab "$OUTPUT"/reports/
+    sed -i 's/\.fa//' "$OUTPUT"/reports/${i}.tab
+    cut -d$'\t' -f2-6,10-11,13-14 "$OUTPUT"/reports/"${i}".tab >"$OUTPUT"/reports/"${i}"_vfdb.tab
+    $SED -i '1d' "$OUTPUT"/reports/"${i}"_vfdb.tab
+    $SED -i "1iContig${TAB}Start${TAB}End${TAB}Strand${TAB}Gene${TAB}Coverage${TAB}Identity${TAB}Accession${TAB}Product" "$OUTPUT"/reports/"${i}"_vfdb.tab
 done
 
 ###### 5. Pangenome analysis formatting #####
-if [ -s $OUTPUT/pangenomes/summary_statistics.txt ] && [ -s $OUTPUT/pangenomes/pangenome.png ]; then
-    cp -f $OUTPUT/pangenomes/pangenome.png $OUTPUT/reports/
-    cp -f $OUTPUT/pangenomes/summary_statistics.txt $OUTPUT/reports/
+if [ -s "$OUTPUT"/pangenomes/summary_statistics.txt ] && [ -s "$OUTPUT"/pangenomes/pangenome.png ]; then
+    cp -f "$OUTPUT"/pangenomes/pangenome.png "$OUTPUT"/reports/
+    cp -f "$OUTPUT"/pangenomes/summary_statistics.txt "$OUTPUT"/reports/
 fi
-if [ -s $OUTPUT/pangenomes/accessory_binary_genes.fa.newick ]; then
-    cp -f $OUTPUT/pangenomes/accessory_binary_genes.fa.newick $OUTPUT/reports/
+if [ -s "$OUTPUT"/pangenomes/accessory_binary_genes.fa.newick ]; then
+    cp -f "$OUTPUT"/pangenomes/accessory_binary_genes.fa.newick "$OUTPUT"/reports/
 fi
-if [ -s $OUTPUT/pangenomes/core_gene_alignment.newick ]; then
-    cp -f $OUTPUT/pangenomes/core_gene_alignment.newick $OUTPUT/reports/
+if [ -s "$OUTPUT"/pangenomes/core_gene_alignment.newick ]; then
+    cp -f "$OUTPUT"/pangenomes/core_gene_alignment.newick "$OUTPUT"/reports/
 fi
 ### Extra formatting
 for i in $(cat $METADATA); do
@@ -968,50 +983,51 @@ for i in $(cat $METADATA); do
         sed -i 's/_cov/ cov/g' $OUTPUT/reports/$i\_$j.tab
     done
 done
-cp -rf $OUTPUT/mlsts/mlst.tab $OUTPUT/reports
-cp -rf $OUTPUT/phylogeny/combined.filt-algn.phy.treefile $OUTPUT/reports/
-mv $OUTPUT/reports/combined.filt-algn.phy.treefile $OUTPUT/reports/combined.filt-algn.phy.newick
+cp -rf "$OUTPUT"/mlsts/mlst.ta"b $OUTP"UT/reports
+cp -rf "$OUTPUT"/phylogeny/combined.filt-algn.phy.treefile "$OUTPUT"/reports/
+mv "$OUTPUT"/reports/combined.filt-algn.phy.treefile "$OUTPUT"/reports/combined.filt-algn.phy.newick
 #### 5. Vcf file compilation
 for x in $(cat $METADATA); do
-    cp -rf $OUTPUT/variant_calling/${x}.annot.tab $OUTPUT/reports/
-    cat $OUTPUT/reports/${x}.annot.tab | grep "snp" | grep "missense_variant" | grep "resistance" >>$OUTPUT/reports/${x}_amr_snps.tab
-    cut -d$'\t' -f2-5,11,13-14 $OUTPUT/reports/${x}_amr_snps.tab >$OUTPUT/reports/${x}_amr_snps
-    sed -i "1iGenomePosition${TAB}Type${TAB}ReferenceAllele${TAB}AlternateAllele${TAB}Consequence${TAB}AffectedGene${TAB}Product" $OUTPUT/reports/${x}_amr_snps
+    cp -rf "$OUTPUT"/variant_calling/"${x}".annot.tab "$OUTPUT"/reports/
+    cat "$OUTPUT"/reports/${x}.annot.tab | grep "snp" | grep "missense_variant" | grep "resistance" >>"$OUTPUT"/reports/"${x}"_amr_snps.tab
+    cut -d$'\t' -f2-5,11,13-14 "$OUTPUT"/reports/"${x}"_amr_snps.tab >"$OUTPUT"/reports/"${x}"_amr_snps
+    sed -i "1iGenomePosition${TAB}Type${TAB}ReferenceAllele${TAB}AlternateAllele${TAB}Consequence${TAB}AffectedGene${TAB}Product" "$OUTPUT"/reports/"${x}"_amr_snps
 done
-rm -rf $OUTPUT/reports/*amr_snps.tab && rm -rf $OUTPUT/reports/*.annot.tab
+rm -rf "$OUTPUT"/reports/*amr_snps.tab && rm -rf "$OUTPUT"/reports/*.annot.tab
 
 #### 6. Insertion sequence work-up
 #Variables
 INSR="$OUTPUT/insertion_sequences/is_sequences.txt"
 FILES="$OUTPUT/insertion_sequences"
-SED="$HOME/miniconda3/envs/rMAP-1.0/bin/sed"
+SED="$CONDA_PREFIX/bin/sed"
 LIST="$OUTPUT/insertion_sequences/list2.txt"
 
 cd
-mkdir -p $FILES/temp
-cp -r $HOME/miniconda3/envs/rMAP-1.0/config-files/IS.database.fa $FILES
-cat $FILES/IS.database.fa | grep ">" | sed -r 's/^.{1}//' | sort -u | uniq >>$FILES/is_sequences.txt
+mkdir -p "$FILES"/temp
+cp -r "$CONDA_PREFIX"/config-files/IS.database.fa "$FILES"
+# shellcheck disable=SC2002
+cat "$FILES"/IS.database.fa | grep ">" | sed -r 's/^.{1}//' | sort -u | uniq >>"$FILES"/is_sequences.txt
 for i in $(cat $METADATA); do
     for j in $(cat $INSR); do
         if $(grep -xq "No hits found" $FILES/$i/$i.clean/$j/*.txt 2>/dev/null); then
             :
         else
-            cat $FILES/$i/$i.clean/$j/*.txt >$FILES/$i/$j.txt
-            mv $FILES/$i/$j.txt $FILES/$i/$i\_$j.txt
-            cp -rf $FILES/$i/$i\_$j.txt $FILES/temp
-            cat $FILES/temp/$i\_$j.txt >>$FILES/temp/$i\_inseq1.txt
-            cat $FILES/temp/$i\_inseq1.txt | sort | uniq >$FILES/temp/$i\_inseq2.txt
-            cut -d$'\t' -f1-6,9-10,13-14 $FILES/temp/$i\_inseq2.txt >$FILES/temp/$i\_inseq.txt
-            $SED -i '1d' $FILES/temp/$i\_inseq.txt
-            $SED -i "1iRegion${TAB}Orientation${TAB}X-coordinates${TAB}Y-coordinates${TAB}Gap${TAB}CallType${TAB}LeftGene${TAB}LeftGeneDescription${TAB}RightGene${TAB}RightGeneDescription" $FILES/temp/$i\_inseq.txt
-            cp -rf $FILES/temp/$i\_inseq.txt $OUTPUT/reports
+            cat "$FILES"/$i/"$i".clean/"$j"/*.txt >"$FILES"/"$i"/"$j".txt
+            mv "$FILES"/"$i"/"$j".txt "$FILES"/"$i"/"$i"\_"$j".txt
+            cp -rf "$FILES"/"$i"/"$i"\_$j.txt "$FILES"/temp
+            cat "$FILES"/temp/"$i"\_$j.txt >>"$FILES"/temp/"$i"\_inseq1.txt
+            cat "$FILES"/temp/"$i"\_inseq1.txt | sort | uniq >"$FILES"/temp/"$i"\_inseq2.txt
+            cut -d$'\t' -f1-6,9-10,13-14 "$FILES"/temp/"$i"\_inseq2.txt >"$FILES"/temp/"$i"\_inseq.txt
+            $SED -i '1d' "$FILES"/temp/"$i"\_inseq.txt
+            $SED -i "1iRegion${TAB}Orientation${TAB}X-coordinates${TAB}Y-coordinates${TAB}Gap${TAB}CallType${TAB}LeftGene${TAB}LeftGeneDescription${TAB}RightGene${TAB}RightGeneDescription" "$FILES"/temp/"$i"\_inseq.txt
+            cp -rf "$FILES"/temp/"$i"\_inseq.txt "$OUTPUT"/reports
         fi
     done
 done
 
-ls $OUTPUT/reports/*_inseq.txt >$FILES/temp/temp.txt
-cat $FILES/temp/temp.txt | cut -d_ -f1 | cut -d/ -f3 | uniq >$FILES/list2.txt
-cp -rf $HOME/miniconda3/envs/rMAP-1.0/config-files/logo.png $OUTPUT/reports
+ls "$OUTPUT"/reports/*_inseq.txt >"$FILES"/temp/temp.txt
+cat "$FILES"/temp/temp.txt | cut -d_ -f1 | cut -d/ -f3 | uniq >"$FILES"/list2.txt
+cp -rf "$CONDA_PREFIX"/config-files/logo.png "$OUTPUT"/reports
 ###### MARKDOWN SAMPLE RUN ############
 cat <<EOF >$OUTPUT/reports/rMAP_report.Rmd
 ---
