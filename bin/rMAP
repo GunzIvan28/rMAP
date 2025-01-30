@@ -831,7 +831,7 @@ if [ "$PANGENOME" -ne "0" ]; then
     PANGENOME=1
     cd
     start=$SECONDS
-    ROARY2SVG="miniconda3/envs/rMAP-1.0/config-files/roary2svg.pl"
+    ROARY2SVG=""$CONDA_PREFIX"/config-files/roary2svg.pl"
     echo -e "$Red""rMAP will now run Pangenome Analysis...\n""$Off"
     mkdir -p "$OUTPUT"/gffs
     for sample in $(cat $OUTPUT/list.txt); do
